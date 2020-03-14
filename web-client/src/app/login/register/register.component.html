@@ -1,0 +1,28 @@
+<div class="login-view">
+  <div class="login-form">
+    <mat-progress-bar *ngIf="isLoading" class="loading" mode="indeterminate"></mat-progress-bar>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="submit()">
+          <mat-form-field appearance="outline">
+            <mat-label>Login</mat-label>
+            <input formControlName="login" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>E-Mail</mat-label>
+            <input formControlName="email" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" type="password" matInput>
+          </mat-form-field>
+          <button [disabled]="registerForm.invalid" mat-raised-button color="primary">Register</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <a class="swap-link" [routerLink]="'../'">Login</a>
+</div>

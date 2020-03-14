@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  a {
+    color: #fff;
+    margin-right: 10px;
+    font-size: 1rem;
+  }
+
+  .logo {
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+  }
+
+  .left-menu {
+    justify-self: flex-start;
+    margin-right: auto;
+    margin-left: 20px;
+  }
+
+  .right-menu {
+    justify-self: flex-end;
+  }
+}

@@ -1,0 +1,11 @@
+<div class="home-view">
+  <div *ngIf="authService.isAuth | async" class="greeting">
+    <h1>Hi, {{authService.userLogin}}!</h1>
+  </div>
+  <div *ngIf="!(authService.isAuth |async)" class="title">
+    <h1>CTF Node</h1>
+  </div>
+  <div class="title">
+    <h2>It's time to start CTF Challenge!</h2>
+  </div>
+</div>

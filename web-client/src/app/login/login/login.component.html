@@ -1,0 +1,24 @@
+<div class="login-view">
+  <div class="login-form">
+    <mat-progress-bar *ngIf="isLoading" class="loading" mode="indeterminate"></mat-progress-bar>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+          <mat-form-field appearance="outline">
+            <mat-label>Login</mat-label>
+            <input autofocus formControlName="login" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" type="password" matInput>
+          </mat-form-field>
+          <button [disabled]="loginForm.invalid" mat-raised-button color="primary">Login</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <a class="swap-link" [routerLink]="'./register'">Register</a>
+</div>

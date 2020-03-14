@@ -1,0 +1,11 @@
+<mat-toolbar class="header" color="primary">
+  <div class="logo" [routerLink]="'/'">{{title}}</div>
+  <div class="left-menu">
+    <button mat-button *ngIf="authService.isAuth | async" [routerLink]="'/tasks'">Tasks</button>
+  </div>
+  <div class="right-menu">
+    <button mat-button *ngIf="!(authService.isAuth | async)" [routerLink]="'/login'">Login</button>
+    <button mat-button *ngIf="authService.isAuth | async" [routerLink]="'/user'">Profile</button>
+    <button mat-button *ngIf="authService.isAuth | async" (click)="authService.logout()">Logout</button>
+  </div>
+</mat-toolbar>

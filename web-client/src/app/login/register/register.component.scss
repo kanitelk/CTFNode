@@ -1,0 +1,48 @@
+.login-view {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.loading {
+  width: 280px;
+}
+
+.login-form {
+  display: flex;
+  flex-flow: column wrap;
+  min-width: 250px;
+  justify-content: center;
+  align-items: center;
+
+  .mat-card {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    width: 250px;
+  }
+}
+
+.mat-card-title {
+  margin-top: 5px;
+  margin-bottom: 15px !important;
+}
+
+.mat-card-content {
+  width: 95%;
+}
+
+.mat-card-content > form {
+  display: flex;
+  flex-flow: column wrap;
+
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.swap-link {
+  margin-top: 20px;
+}
