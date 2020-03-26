@@ -1,3 +1,8 @@
+.tasks-list-view {
+  display: flex;
+  flex-flow: column wrap;
+}
+
 .tasks-list {
   display: flex;
   flex-flow: row wrap;
@@ -8,5 +13,14 @@
     margin-top: 10px;
     min-width: 200px;
     max-width: 300px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-flow: row nowrap;
+
+  button {
+    margin-left: 15px;
   }
 }

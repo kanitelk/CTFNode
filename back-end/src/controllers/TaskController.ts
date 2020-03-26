@@ -59,7 +59,7 @@ router.get("/:id", async (req, res) => {
 // Add new task
 router.post(
   "/",
-  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.admin),
+  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.user),
   async (req, res) => {
     const {
       title,

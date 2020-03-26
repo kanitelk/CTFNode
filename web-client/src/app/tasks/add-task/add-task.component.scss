@@ -1,0 +1,19 @@
+.add-task-view {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+
+  form {
+    display: flex;
+    flex-flow: column wrap;
+    min-width: 300px;
+    max-width: 400px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  .mat-slide-toggle {
+    margin-bottom: 15px;
+  }
+}

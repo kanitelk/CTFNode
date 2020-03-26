@@ -22,7 +22,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (token && !this.helper.isTokenExpired(token)) {
       this.setAuthToken(token);
     }
   }

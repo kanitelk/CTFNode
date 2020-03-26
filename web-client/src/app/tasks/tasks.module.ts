@@ -7,6 +7,7 @@ import { TaskCardComponent } from './task-card/task-card.component';
 import { TaskComponent } from './task/task.component';
 import {SharedModule} from '../shared/shared.module';
 import { AddTaskComponent } from './add-task/add-task.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { AddTaskComponent } from './add-task/add-task.component';
   imports: [
     CommonModule,
     TasksRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TasksModule { }

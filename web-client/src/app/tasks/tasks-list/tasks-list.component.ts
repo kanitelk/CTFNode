@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TaskService} from '../../services/task.service';
 
 export interface Task {
   _id: string;
@@ -16,6 +17,7 @@ export const tasks: Task[] = [
     _id: 'n4bn4v2j34',
     title: 'Test',
     answer: 'test',
+    content: 'lipsum',
     visible: true,
   },
   {
@@ -33,10 +35,12 @@ export const tasks: Task[] = [
 })
 export class TasksListComponent implements OnInit {
   tasks: Task[];
-  constructor() { }
+  constructor(private _tasksService: TaskService) { }
 
   ngOnInit(): void {
-    this.tasks = tasks;
+    this._tasksService.getTasks().subscribe(data => {
+      this.tasks = data;
+    });
   }
 
 }

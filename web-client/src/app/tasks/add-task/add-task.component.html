@@ -1,1 +1,19 @@
-<p>add-task works!</p>
+<div class="add-task-view">
+  <h2>Add new task</h2>
+  <form [formGroup]="addForm" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea formControlName="content" matInput></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Answer (Flag)</mat-label>
+      <input formControlName="answer" matInput>
+    </mat-form-field>
+    <mat-slide-toggle formControlName="visible">Visible</mat-slide-toggle>
+    <button [disabled]="addForm.invalid" mat-raised-button color="primary">Create</button>
+  </form>
+</div>
