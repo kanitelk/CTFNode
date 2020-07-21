@@ -42,10 +42,13 @@ export const isAuthMiddleware = (
     })
     if (
       role === UserRole.admin &&
-      (decodedToken as unknown as DecodedTokenType) !== UserRole.admin
+      decodeToken(token).role !== UserRole.admin
     ) {
+      // console.log();
+      
       throw new HttpException(401, "You do not have administrator rights");
     }
+    res.locals.user = decodeToken(token);
     next();
   } catch (error) {
     console.log(error);

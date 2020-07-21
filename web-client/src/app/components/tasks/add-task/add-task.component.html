@@ -3,7 +3,7 @@
   <form [formGroup]="addForm" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input formControlName="title" matInput>
+      <input formControlName="title" matInput />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Content</mat-label>
@@ -11,9 +11,15 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Answer (Flag)</mat-label>
-      <input formControlName="answer" matInput>
+      <input formControlName="flag" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Score</mat-label>
+      <input type="number" formControlName="score" matInput />
     </mat-form-field>
     <mat-slide-toggle formControlName="visible">Visible</mat-slide-toggle>
-    <button [disabled]="addForm.invalid" mat-raised-button color="primary">Create</button>
+    <button [disabled]="addForm.invalid" mat-raised-button color="primary">
+      Create
+    </button>
   </form>
 </div>

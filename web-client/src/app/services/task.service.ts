@@ -5,13 +5,12 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TaskService {
   private API_URL = environment.apiURL;
 
-  constructor(private _authService: AuthService, private http: HttpClient) {
-  }
+  constructor(private _authService: AuthService, private http: HttpClient) {}
 
   public getTask(id: string): Observable<any> {
     return this.http.get(`${this.API_URL}/tasks/${id}`);
@@ -21,7 +20,27 @@ export class TaskService {
     return this.http.get(`${this.API_URL}/tasks/`);
   }
 
-  public addTask(title: string, content: string, visible: boolean, answer: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/tasks/`, {title, content, visible, answer});
+  public addTask(
+    title: string,
+    content: string,
+    visible: boolean,
+    flag: string,
+    score: number
+  ): Observable<any> {
+    return this.http.post(`${this.API_URL}/tasks/`, {
+      title,
+      content,
+      visible,
+      flag,
+      score,
+    });
+  }
+
+  public sendFlag(taskId: string, flag: string) {
+    return this.http.post(`${this.API_URL}/flags/send`, { taskId, flag });
+  }
+
+  public getFlags(taskId: string): Observable<any> {
+    return this.http.get(`${this.API_URL}/tasks/${taskId}/flags`);
   }
 }

@@ -27,7 +27,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatToolbarModule,
   ],
   exports: [
     MatToolbarModule,
@@ -40,8 +41,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSlideToggleModule
-  ]
+    MatSlideToggleModule,
+    MatToolbarModule
+  ],
 })
-export class MaterialModule {
-}
+export class MaterialModule {}

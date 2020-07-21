@@ -5,6 +5,7 @@ import morgan from "morgan";
 
 import UserController from "./controllers/UserController";
 import TaskController from "./controllers/TaskController";
+import FlagController from "./controllers/FlagController";
 import { errorMiddleware } from "./utils/errorHandler";
 
 const app = express();
@@ -17,5 +18,6 @@ app.use(errorMiddleware)
 
 app.use("/api/users", UserController);
 app.use("/api/tasks", TaskController);
+app.use("/api/flags", FlagController)
 
 export default app;

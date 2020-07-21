@@ -4,7 +4,8 @@ export type UserDocument = mongoose.Document & {
   login: string,
   email: string,
   password: string,
-  role: UserRole
+  role: UserRole,
+  score: number
 };
 
 const userSchema = new mongoose.Schema(
@@ -21,6 +22,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["admin", "user"],
       default: "user"
+    },
+    score: {
+      type: Number,
+      default: 0
     }
   },
   {

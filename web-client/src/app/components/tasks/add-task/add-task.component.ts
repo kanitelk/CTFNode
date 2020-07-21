@@ -18,15 +18,16 @@ export class AddTaskComponent implements OnInit {
     this.addForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(3)]),
       content: new FormControl('', [Validators.required, Validators.minLength(10)]),
-      answer: new FormControl('', [Validators.required]),
+      flag: new FormControl('', [Validators.required]),
+      score: new FormControl(1, [Validators.required]),
       visible: new FormControl(true)
     });
   }
 
   submit() {
     this.isLoading = true;
-    const {title, content, answer, visible} = this.addForm.value;
-    this._taskService.addTask(title, content, visible, answer).subscribe(data => {
+    const {title, content, flag, score, visible} = this.addForm.value;
+    this._taskService.addTask(title, content, visible, flag, score).subscribe(data => {
       this._snackBar.open(`Task created`, null, {duration: 2000});
       this._router.navigate(['/tasks/task', data._id]);
     }, error => {

@@ -1,0 +1,6 @@
+<div class="flags-list">
+  <li *ngFor="let flag of flags">
+    {{flag.value}}
+    <mat-icon *ngIf="flag.isRight">check</mat-icon>
+  </li>
+</div>
