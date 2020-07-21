@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { User, UserRole } from "../models/UserSchema";
-import { createUser, loginUser, editUser } from "../actions/User";
-import { isAuthMiddleware, getToken, decodeToken } from "../actions/Auth";
+import { createUser, loginUser, editUser } from "../services/User";
+import { isAuthMiddleware, getToken, decodeToken } from "../services/Auth";
 
 const router = express.Router();
 

@@ -1,7 +1,7 @@
 <div class="tasks-view">
   <div class="row">
     <h1>Tasks</h1>
-    <button [routerLink]="['./add']" mat-mini-fab>
+    <button *ngIf="authService.isAdmin | async" [routerLink]="['./add']" mat-mini-fab>
       Add
     </button>
   </div>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     const {login, email, password} = this.registerForm.value;
     this._authService.register(login, email, password).subscribe(data => {
         this._authService.setAuthToken(data.token);
-        this._router.navigate(['/']);
+        this._router.navigate(['/tasks']);
       }, err => {
         this._snackBar.open(err.error.message, null, {duration: 2000});
         this.isLoading = false;

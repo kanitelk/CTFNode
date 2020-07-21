@@ -14,7 +14,7 @@ export class TaskService {
   }
 
   public getTask(id: string): Observable<any> {
-    return this.http.get(`${this.API_URL}/tasks/`, {params: {id}});
+    return this.http.get(`${this.API_URL}/tasks/${id}`);
   }
 
   public getTasks(): Observable<any> {

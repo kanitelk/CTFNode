@@ -36,10 +36,18 @@ export const createUser = async (
   if (findUser) throw new HttpException(400, "User already exists");
   if (!password) throw new HttpException(400, "Password not provided");
 
+
+  let role = 'user';
+
+  if (await User.count({}) === 0) {
+    role = 'admin'
+  } 
+
   let user = new User({
     login,
     password: getPasswordHash(password),
-    email
+    email,
+    role
   });
 
   try {
