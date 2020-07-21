@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {timeout} from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     const {login, password} = this.loginForm.value;
     this._authService.login(login, password).pipe(timeout(1000)).subscribe(data => {
         this._authService.setAuthToken(data.token);
-        this._router.navigate(['/']);
+        this._router.navigate(['/tasks']);
       }, err => {
         this._snackBar.open(err.error.message, null, {duration: 2000});
         this.isLoading = false;

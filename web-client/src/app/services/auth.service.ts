@@ -14,6 +14,7 @@ export enum UserRole {
 })
 export class AuthService {
   public isAuth = new BehaviorSubject<boolean>(false);
+  public isAdmin = new BehaviorSubject<boolean>(false);
   public userLogin: string | null;
   public userId: string | null;
   public userRole: UserRole | null;
@@ -33,6 +34,9 @@ export class AuthService {
     this.userId = _id;
     this.userLogin = login;
     this.userRole = role;
+    if (role === 'admin') {
+      this.isAdmin.next(true);
+    }
     localStorage.setItem('token', token);
   }
 

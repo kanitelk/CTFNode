@@ -1,32 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {TaskService} from '../../services/task.service';
+import {TaskService} from '../../../services/task.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface Task {
   _id: string;
   title: string;
   content?: string;
-  visible: boolean;
+  visible?: boolean;
   categories?: string;
   images?: string[];
   files?: string[];
-  answer: string;
+  answer?: string;
 }
-
-export const tasks: Task[] = [
-  {
-    _id: 'n4bn4v2j34',
-    title: 'Test',
-    answer: 'test',
-    content: 'lipsum',
-    visible: true,
-  },
-  {
-    _id: 'zx7cyzchh',
-    title: 'Test 2',
-    answer: 'test',
-    visible: true,
-  },
-]
 
 @Component({
   selector: 'app-tasks-list',
@@ -35,7 +20,7 @@ export const tasks: Task[] = [
 })
 export class TasksListComponent implements OnInit {
   tasks: Task[];
-  constructor(private _tasksService: TaskService) { }
+  constructor(private _tasksService: TaskService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this._tasksService.getTasks().subscribe(data => {
