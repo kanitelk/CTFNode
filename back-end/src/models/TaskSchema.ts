@@ -7,7 +7,8 @@ export type TaskDocument = mongoose.Document & {
   categories: string,
   images: string[],
   files: string[],
-  answer: string
+  flag: string,
+  score: number
 };
 
 const taskSchema = new mongoose.Schema(
@@ -21,7 +22,8 @@ const taskSchema = new mongoose.Schema(
     },
     images: [String],
     files: [String],
-    answer: String
+    flag: String,
+    score: Number
   },
   {
     timestamps: true

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 export enum UserRole {
   user = 'user',
@@ -21,10 +22,12 @@ export class AuthService {
   private API_URL = environment.apiURL;
   private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _router: Router) {
     const token = localStorage.getItem('token');
     if (token && !this.helper.isTokenExpired(token)) {
       this.setAuthToken(token);
+    } else {
+      this._router.navigate(['/login'])
     }
   }
 
