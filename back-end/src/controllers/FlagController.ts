@@ -22,7 +22,7 @@ router.use(
 // Send flag as answer for task
 router.post(
   "/send",
-  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.user),
+  isAuthMiddleware(UserRole.user),
   async (req, res) => {
     try {
       const { flag, taskId } = req.body;

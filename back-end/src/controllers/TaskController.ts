@@ -32,18 +32,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get(
-  "/all",
-  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.admin),
-  async (req, res) => {
-    try {
-      let tasks = await Task.find({}, { _id: 1, title: 1, content: 1 });
-      res.send(tasks);
-    } catch (error) {
-      throw error;
-    }
+router.get("/all", isAuthMiddleware(UserRole.admin), async (req, res) => {
+  try {
+    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1 });
+    res.send(tasks);
+  } catch (error) {
+    throw error;
   }
-);
+});
 
 // Get task by id
 router.get("/:id", async (req, res) => {
@@ -62,26 +58,30 @@ router.get("/:id", async (req, res) => {
 });
 
 // Get user flags for task by task id
-router.get(
-  "/:id/flags",
-  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.admin),
-  async (req, res) => {
-    try {
-      const user: DecodedTokenType = res.locals.user;
-      let flags = await Flag.find({task: req.params.id, user: user._id});
-      res.send(flags)
-    } catch (error) {
-      throw error;
-    }
+router.get("/:id/flags", isAuthMiddleware(UserRole.admin), async (req, res) => {
+  try {
+    const user: DecodedTokenType = res.locals.user;
+    let flags = await Flag.find({ task: req.params.id, user: user._id });
+    res.send(flags);
+  } catch (error) {
+    throw error;
   }
-);
+});
 
 // Add new task
-router.post(
-  "/",
-  (req, res, next) => isAuthMiddleware(req, res, next, UserRole.admin),
-  async (req, res) => {
-    const {
+router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
+  const {
+    title,
+    content,
+    visible,
+    images,
+    categories,
+    files,
+    flag,
+    score,
+  } = req.body;
+  try {
+    const task = new Task({
       title,
       content,
       visible,
@@ -89,25 +89,13 @@ router.post(
       categories,
       files,
       flag,
-      score
-    } = req.body;
-    try {
-      const task = new Task({
-        title,
-        content,
-        visible,
-        images,
-        categories,
-        files,
-        flag,
-        score
-      });
-      await task.save();
-      res.send(task);
-    } catch (error) {
-      throw error;
-    }
+      score,
+    });
+    await task.save();
+    res.send(task);
+  } catch (error) {
+    throw error;
   }
-);
+});
 
 export default router;
