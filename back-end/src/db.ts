@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import config from './config';
+import { startupCheckSettings } from './services/Settings';
 
 mongoose.set("useCreateIndex", true);
 
@@ -15,5 +16,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", function() {
   console.log("MongoDB connected!");
 });
+
+db.once("open", startupCheckSettings);
 
 export default mongoose.connection;

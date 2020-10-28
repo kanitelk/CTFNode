@@ -5,7 +5,7 @@ import config from "../config";
 import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 
-export type DecodedTokenType = {
+export type DecodedUserTokenType = {
   _id?: string;
   login?: string;
   role?: string;
@@ -25,8 +25,8 @@ export const generateToken = (_id: string, login: string, role: string) => {
   });
 };
 
-export const decodeToken = (token: string): DecodedTokenType => {
-  return jwt.verify(token, config.tokenSecret) as DecodedTokenType;
+export const decodeToken = (token: string): DecodedUserTokenType => {
+  return jwt.verify(token, config.tokenSecret) as DecodedUserTokenType;
 };
 
 export const isAuthMiddleware = (role: UserRole) => {

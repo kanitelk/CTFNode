@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 
-import { isAuthMiddleware, DecodedTokenType } from "../services/Auth";
+import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
 import { Task } from "../models/TaskSchema";
 import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
@@ -58,9 +58,9 @@ router.get("/:id", async (req, res) => {
 });
 
 // Get user flags for task by task id
-router.get("/:id/flags", isAuthMiddleware(UserRole.admin), async (req, res) => {
+router.get("/:id/flags", isAuthMiddleware(UserRole.user), async (req, res) => {
   try {
-    const user: DecodedTokenType = res.locals.user;
+    const user: DecodedUserTokenType = res.locals.user;
     let flags = await Flag.find({ task: req.params.id, user: user._id });
     res.send(flags);
   } catch (error) {
@@ -70,26 +70,10 @@ router.get("/:id/flags", isAuthMiddleware(UserRole.admin), async (req, res) => {
 
 // Add new task
 router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
-  const {
-    title,
-    content,
-    visible,
-    images,
-    categories,
-    files,
-    flag,
-    score,
-  } = req.body;
+  const { data } = req.body;
   try {
     const task = new Task({
-      title,
-      content,
-      visible,
-      images,
-      categories,
-      files,
-      flag,
-      score,
+      data,
     });
     await task.save();
     res.send(task);

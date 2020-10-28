@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 
 import { Task } from "../models/TaskSchema";
-import { isAuthMiddleware, DecodedTokenType } from "../services/Auth";
+import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
 import { UserRole, User } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 import { Flag } from "../models/FlagSchema";
@@ -26,7 +26,7 @@ router.post(
   async (req, res) => {
     try {
       const { flag, taskId } = req.body;
-      const user: DecodedTokenType = res.locals.user;
+      const user: DecodedUserTokenType = res.locals.user;
 
       let task = await Task.findOne({ _id: taskId });
       if (!task) throw new HttpException(400, "Task not found");

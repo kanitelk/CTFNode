@@ -1,10 +1,15 @@
 import cron from "node-cron";
 
-const tasks = () => {
-  // const getProductTask = cron.schedule("*/15 * * * *", () => {});
-  // const updateStorageTask = cron.schedule("*/15 * * * *", () => {});
+const testTask = () => {
+  console.log(Date.now(), ' ***');
+  
+}
 
-  // getProductTask.start();
+const tasks = () => {
+  // every 5 seconds
+  // const test = cron.schedule('*/5 * * * * *', testTask)
+  // test.start()
+  
   // updateStorageTask.start();
 };
 
