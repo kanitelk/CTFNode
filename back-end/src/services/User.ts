@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { User, UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 import { generateToken } from "./Auth";
+import { logger } from "./Logger";
 
 class UserService {
   async loginUser(
@@ -51,7 +52,7 @@ class UserService {
         token: generateToken(user._id, user.login, user.role),
       };
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       throw error;
     }
   };

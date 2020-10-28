@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
+import { logger } from "./Logger";
 
 export type DecodedUserTokenType = {
   _id?: string;
@@ -52,7 +53,7 @@ export const isAuthMiddleware = (role: UserRole) => {
       res.locals.user = decodeToken(token);
       next();
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       res.status(401).send(error);
     }
   };

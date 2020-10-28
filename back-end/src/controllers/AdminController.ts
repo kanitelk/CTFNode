@@ -6,7 +6,7 @@ import { Settings } from "../models/SettingsSchema";
 import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
 import { UserRole, User } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
-import { Flag } from "../models/FlagSchema";
+import { logger } from "../services/Logger";
 
 const router = express.Router();
 
@@ -20,6 +20,15 @@ router.use(
   })
 );
 
+router.get("/settings", async (req, res) => {
+  try {
+    const data = await Settings.findOne();
+    res.send(data);
+  } catch (error) {
+    logger.error(error);
+  }
+});
+
 // Update platform settings
 router.post(
   "/settings",
@@ -30,7 +39,7 @@ router.post(
       await (await Settings.findOne()).updateOne(data);
       res.send({success: 1});
     } catch (error) {
-      console.log(error);
+      logger.error(error)
       throw new HttpException(400, 'Settings data incorrect')
     }
   }

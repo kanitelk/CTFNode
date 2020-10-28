@@ -6,6 +6,7 @@ import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
 import { UserRole, User } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 import { Flag } from "../models/FlagSchema";
+import { logger } from "../services/Logger";
 
 const router = express.Router();
 
@@ -60,7 +61,7 @@ router.post(
 
       res.send({correct, score: correct ? task.score : 0});
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       throw error;
     }
   }

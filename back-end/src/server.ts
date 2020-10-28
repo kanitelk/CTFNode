@@ -7,9 +7,10 @@ require("dotenv").config();
 const db = require("./db");
 import app from './app'
 import config from './config';
+import { logger } from './services/Logger';
 
 const httpServer = http.createServer(app);
 
 httpServer.listen(config.port, () => {
-  console.log(`HTTP Server running on port ${config.port}`);
+  logger.info(`HTTP Server running on port ${config.port}`);
 });

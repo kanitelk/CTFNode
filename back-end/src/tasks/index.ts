@@ -2,7 +2,6 @@ import cron from "node-cron";
 
 const testTask = () => {
   console.log(Date.now(), ' ***');
-  
 }
 
 const tasks = () => {

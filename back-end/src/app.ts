@@ -10,13 +10,15 @@ import AdminController from "./controllers/AdminController";
 import { errorMiddleware } from "./utils/errorHandler";
 import tasks from './tasks'
 import { startupCheckSettings } from "./services/Settings";
+import { stream } from "./services/Logger";
+import winston from "winston";
 
 const app = express();
 
 app.set("trust proxy", 1);
 app.use(cors());
 app.use(helmet());
-app.use(morgan("combined"));
+app.use(morgan("combined", {stream}));
 app.use(errorMiddleware)
 
 app.use("/api/users", UserController);
