@@ -99,4 +99,20 @@ router.put("/:id", isAuthMiddleware(UserRole.admin), async (req, res) => {
   }
 });
 
+router.delete("/:id", isAuthMiddleware(UserRole.admin), async (req, res) => {
+  try {
+    let user: DecodedUserTokenType = res.locals.user;
+
+    if (user.role !== UserRole.admin) {
+      throw new HttpException(401, "Not authorized for this action");
+    }
+    // Delete user from admin
+    await Task.deleteOne({ _id: req.params.id });
+    res.send({ success: 1 });
+    return;
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 export default router;

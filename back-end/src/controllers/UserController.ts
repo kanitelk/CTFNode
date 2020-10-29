@@ -73,7 +73,7 @@ router.delete("/:id", isAuthMiddleware(UserRole.user), async (req, res) => {
     let user = await User.findById(req.params.id);
 
     if (user._id === user_token._id) {
-      // Delete user account from this user
+      // Delete user account from initiator user
       await User.deleteOne({ _id: user._id });
       res.send({ success: 1 });
       return;
