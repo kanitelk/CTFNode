@@ -1,6 +1,9 @@
 import { Settings } from '../models/SettingsSchema'
 import { logger } from './LoggerService';
 
+/**
+ * Check platform settings object in DB on app startup
+ */
 export const startupCheckSettings = async () => {
   let s = await Settings.findOne();
   if (!s) {

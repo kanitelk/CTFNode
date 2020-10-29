@@ -1,5 +1,8 @@
 import winston, { format, transports } from "winston";
 
+/**
+ * Main logger service
+ */ 
 export const logger = winston.createLogger({
   level: "info",
   format: format.combine(

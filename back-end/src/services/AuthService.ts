@@ -6,16 +6,29 @@ import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 import { logger } from "./LoggerService";
 
+
 export type DecodedUserTokenType = {
   _id?: string;
   login?: string;
   role?: string;
 };
 
+/**
+ * Get JWT from Express request (Bearer token)
+ * @param  {express.Request} req
+ * @returns string
+ */
 export const getToken = (req: express.Request): string =>
   req.headers.authorization.split(" ")[1];
 
-export const generateToken = (_id: string, login: string, role: string) => {
+/**
+ * Generate JWT
+ * @param  {string} _id
+ * @param  {string} login
+ * @param  {string} role
+ * @returns string
+ */
+export const generateToken = (_id: string, login: string, role: string): string => {
   const data = {
     _id,
     login,
@@ -26,10 +39,19 @@ export const generateToken = (_id: string, login: string, role: string) => {
   });
 };
 
+/**
+ * Decode JWT to get basic user data
+ * @param  {string} token
+ * @returns DecodedUserTokenType
+ */
 export const decodeToken = (token: string): DecodedUserTokenType => {
   return jwt.verify(token, config.tokenSecret) as DecodedUserTokenType;
 };
 
+/**
+ * Express middleware for checking user auth and user role
+ * @param  {UserRole} role
+ */
 export const isAuthMiddleware = (role: UserRole) => {
   return function (
     req: express.Request,

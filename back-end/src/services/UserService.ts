@@ -6,6 +6,9 @@ import { DecodedUserTokenType, generateToken } from "./AuthService";
 import { logger } from "./LoggerService";
 
 class UserService {
+  /**
+   * User auth with login and password. Returns login and JWT token.
+   */
   async loginUser(
     login: string,
     password: string
@@ -26,7 +29,14 @@ class UserService {
     }
   }
 
-  createUser = async (login: string, password: string, email?: string) => {
+  /**
+   * Create new user
+   */
+  createUser = async (
+    login: string,
+    password: string,
+    email?: string
+  ): Promise<{ login: string; token: string }> => {
     let findUser = await User.findOne({ login });
 
     if (findUser) throw new HttpException(400, "User already exists");
@@ -57,6 +67,12 @@ class UserService {
     }
   };
 
+  /**
+   * Edit user (as user or admin)
+   * @param  {DecodedUserTokenType} initiator_user
+   * @param  {{_id:string;email?:string;role?:UserRole;score?:number;}} data
+   * @returns number
+   */
   editUser = async (
     initiator_user: DecodedUserTokenType,
     data: {
