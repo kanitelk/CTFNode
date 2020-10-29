@@ -1,0 +1,25 @@
+@import "../../../../styles.scss";
+
+.task {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-card {
+  @include material-card-block();
+  min-width: 300px;
+  max-width: 80%;
+
+  form {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    button {
+      margin-top: -20px;
+      margin-left: 5px;
+    }
+  }
+}

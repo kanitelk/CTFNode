@@ -53,6 +53,7 @@ export class AuthService {
     this.userLogin = null;
     this.userRole = null;
     localStorage.removeItem('token');
+    this._router.navigate(['/']);
   }
 
   public register(login: string, email: string, password: string): Observable<any> {

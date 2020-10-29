@@ -1,12 +1,46 @@
 <mat-toolbar class="header" color="primary">
-  <div *ngIf="authService.isAuth | async" class="logo" [routerLink]="'/tasks'">{{title}}</div>
-  <div *ngIf="!(authService.isAuth | async)" class="logo" [routerLink]="'/tasks'">{{title}}</div>
+  <div *ngIf="authService.isAuth | async" class="logo" [routerLink]="'/tasks'">
+    {{ title }}
+  </div>
+  <div
+    *ngIf="!(authService.isAuth | async)"
+    class="logo"
+    [routerLink]="'/tasks'"
+  >
+    {{ title }}
+  </div>
   <div class="left-menu">
-    <button mat-button *ngIf="authService.isAuth | async" [routerLink]="'/tasks'">Tasks</button>
+    <button
+      mat-button
+      *ngIf="authService.isAuth | async"
+      [routerLink]="'/tasks'"
+    >
+      Tasks
+    </button>
   </div>
   <div class="right-menu">
-    <button mat-button *ngIf="!(authService.isAuth | async)" [routerLink]="'/login'">Login</button>
-    <button mat-button *ngIf="authService.isAuth | async" [routerLink]="'/user'">{{authService.userLogin}}</button>
-    <button mat-button *ngIf="authService.isAuth | async" (click)="authService.logout()">Logout</button>
+    <button
+      mat-button
+      *ngIf="!(authService.isAuth | async)"
+      [routerLink]="'/login'"
+    >
+      Login
+    </button>
+    <button
+      mat-button
+      *ngIf="authService.isAuth | async"
+      [routerLink]="'/user'"
+    >
+       <mat-icon *ngIf="authService.isAdmin | async">star</mat-icon>
+       <mat-icon *ngIf="!(authService.isAdmin | async)">person</mat-icon>
+      {{ authService.userLogin }}
+    </button>
+    <button
+      mat-button
+      *ngIf="authService.isAuth | async"
+      (click)="authService.logout()"
+    >
+      Logout
+    </button>
   </div>
 </mat-toolbar>

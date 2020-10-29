@@ -1,24 +1,42 @@
 <div class="tasks-view">
   <div class="row">
     <h1>Tasks</h1>
-    <button *ngIf="authService.isAdmin | async" [routerLink]="['./add']" mat-mini-fab>
-      Add
+    <button
+      *ngIf="authService.isAdmin | async"
+      [routerLink]="['./add']"
+      color="primary"
+      mat-mini-fab
+    >
+      <mat-icon>add</mat-icon>
     </button>
   </div>
   <div class="tasks-list">
     <mat-card *ngFor="let task of tasks">
       <mat-card-header>
         <mat-card-title>
-          {{task.title}}
+          {{ task.title }}
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>{{task.content}}</p>
+        <p>{{ task.content }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button [routerLink]="['./task', task._id]" mat-button>OPEN</button>
+        <button
+          class="edit-task"
+          *ngIf="authService.isAdmin | async"
+          [routerLink]="['./task', task._id]"
+          mat-stroked-button
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          [routerLink]="['./task', task._id]"
+          mat-stroked-button
+          color="primary"
+        >
+          OPEN
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
-

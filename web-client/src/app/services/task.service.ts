@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {AuthService} from './auth.service';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+import { AuthService } from "./auth.service";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -27,13 +27,14 @@ export class TaskService {
     flag: string,
     score: number
   ): Observable<any> {
-    return this.http.post(`${this.API_URL}/tasks/`, {
+    const data = {
       title,
       content,
       visible,
       flag,
       score,
-    });
+    };
+    return this.http.post(`${this.API_URL}/tasks/`, {data: data});
   }
 
   public sendFlag(taskId: string, flag: string) {

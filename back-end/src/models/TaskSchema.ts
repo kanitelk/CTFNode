@@ -5,6 +5,7 @@ export type TaskDocument = mongoose.Document & {
   content: string,
   visible: boolean,
   categories: string,
+  tags: string[],
   images: string[],
   files: string[],
   flag: string,
@@ -16,6 +17,7 @@ const taskSchema = new mongoose.Schema(
     title: String,
     content: String,
     categories: String,
+    tags: [String],
     visible: {
       type: Boolean,
       default: false

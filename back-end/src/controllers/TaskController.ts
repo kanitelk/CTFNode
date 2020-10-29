@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   try {
     let tasks = await Task.find(
       { visible: true },
-      { _id: 1, title: 1, content: 1 }
+      { _id: 1, title: 1, content: 1, score: 1 }
     );
     res.send(tasks);
   } catch (error) {
@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 
 router.get("/all", isAuthMiddleware(UserRole.admin), async (req, res) => {
   try {
-    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1 });
+    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1, });
     res.send(tasks);
   } catch (error) {
     throw error;
@@ -74,10 +74,10 @@ router.get("/:id/flags", isAuthMiddleware(UserRole.user), async (req, res) => {
 // Add new task
 router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
   const { data } = req.body;
+  console.log(data);
+  
   try {
-    const task = new Task({
-      data,
-    });
+    const task = new Task(data);
     await task.save();
     res.send(task);
   } catch (error) {

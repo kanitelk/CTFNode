@@ -1,3 +1,5 @@
+@import '../../../../styles.scss';
+
 .add-task-view {
   display: flex;
   flex-flow: column wrap;
@@ -8,9 +10,7 @@
     flex-flow: column wrap;
     min-width: 300px;
     max-width: 400px;
-    margin: 10px;
-    padding: 20px;
-    background-color: #fff;
+    @include material-card-block();
   }
 
   .mat-slide-toggle {

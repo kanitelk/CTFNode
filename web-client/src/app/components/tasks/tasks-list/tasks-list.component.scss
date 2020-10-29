@@ -1,3 +1,5 @@
+@import "../../../../styles.scss";
+
 .tasks-list-view {
   display: flex;
   flex-flow: column wrap;
@@ -14,13 +16,34 @@
     min-width: 200px;
     max-width: 300px;
   }
+
+  .mat-card-title {
+    margin-left: -16px;
+  }
+
+  .mat-card-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+
+    // button.edit-task {
+    //   width: 10px !important;
+    // }
+
+    .mat-icon {
+      @include md-icon-size(22px);
+    }
+  }
 }
 
 .row {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: center;
 
   button {
     margin-left: 15px;
+    padding-bottom: 5px;
+    margin-top: -5px;
   }
 }
