@@ -9,8 +9,8 @@ import FlagController from "./controllers/FlagController";
 import AdminController from "./controllers/AdminController";
 import { errorMiddleware } from "./utils/errorHandler";
 import tasks from './tasks'
-import { startupCheckSettings } from "./services/Settings";
-import { stream } from "./services/Logger";
+import { startupCheckSettings } from "./services/SettingsService";
+import { stream } from "./services/LoggerService";
 import winston from "winston";
 
 const app = express();

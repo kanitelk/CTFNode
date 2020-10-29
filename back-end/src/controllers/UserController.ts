@@ -1,13 +1,13 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { User, UserRole } from "../models/UserSchema";
-import UserService from "../services/User";
+import UserService from "../services/UserService";
 import {
   isAuthMiddleware,
   getToken,
   decodeToken,
   DecodedUserTokenType,
-} from "../services/Auth";
+} from "../services/AuthService";
 import { isError } from "lodash";
 import { HttpException } from "../utils/errorHandler";
 
@@ -44,19 +44,12 @@ router.post("/login", async (req, res) => {
 });
 
 // Edit user
-router.post("/edit", isAuthMiddleware(UserRole.user), async (req, res) => {
+router.put("/:id", isAuthMiddleware(UserRole.user), async (req, res) => {
   try {
-    const { email, password, role } = req.body;
-    const data = decodeToken(getToken(req));
-    res.send(
-      await UserService.editUser(
-        data._id,
-        email,
-        password,
-        role,
-        data.role === UserRole.admin
-      )
-    );
+    let initiator_user: DecodedUserTokenType = res.locals.user;
+    const { data } = req.body;
+
+    res.send(await UserService.editUser(initiator_user, data));
   } catch (error) {
     res.status(400).send(error);
   }
@@ -93,7 +86,7 @@ router.delete("/:id", isAuthMiddleware(UserRole.user), async (req, res) => {
       return;
     }
 
-    throw new HttpException(401, 'Not authorized for this action')
+    throw new HttpException(401, "Not authorized for this action");
   } catch (error) {
     res.status(400).send(error);
   }

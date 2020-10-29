@@ -1,5 +1,5 @@
 import { Settings } from '../models/SettingsSchema'
-import { logger } from './Logger';
+import { logger } from './LoggerService';
 
 export const startupCheckSettings = async () => {
   let s = await Settings.findOne();

@@ -7,7 +7,7 @@ require("dotenv").config();
 const db = require("./db");
 import app from './app'
 import config from './config';
-import { logger } from './services/Logger';
+import { logger } from './services/LoggerService';
 
 const httpServer = http.createServer(app);
 

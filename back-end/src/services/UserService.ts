@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 
 import { User, UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
-import { generateToken } from "./Auth";
-import { logger } from "./Logger";
+import { DecodedUserTokenType, generateToken } from "./AuthService";
+import { logger } from "./LoggerService";
 
 class UserService {
   async loginUser(
@@ -58,23 +58,31 @@ class UserService {
   };
 
   editUser = async (
-    _id: string,
-    email: string,
-    password: string | null,
-    role: UserRole | null,
-    isAdmin: boolean = false
+    initiator_user: DecodedUserTokenType,
+    data: {
+      _id: string;
+      email?: string;
+      role?: UserRole;
+      score?: number;
+    }
   ) => {
     try {
-      let user = await User.findById(_id);
-      if (email) user.email = email;
-      if (password) user.password = this.getPasswordHash(password);
-      if (isAdmin && role) user.role = role;
-      await user.save();
-      return {
-        login: user.login,
-        email: user.email,
-        role: user.role,
-      };
+      let user = await User.findById(data._id);
+      if (!user) throw new HttpException(404, "User not found");
+
+      if (initiator_user.role === UserRole.admin) {
+        await user.update({ data });
+        return await User.findById(data._id);
+      } else {
+        if (user._id !== initiator_user._id) {
+          throw new HttpException(
+            401,
+            "You are not authorized for this action"
+          );
+        }
+        await User.updateOne({ _id: initiator_user._id }, {});
+        return await User.findById(initiator_user._id);
+      }
     } catch (error) {
       throw error;
     }

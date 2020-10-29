@@ -1,7 +1,10 @@
 import bodyParser from "body-parser";
 import express from "express";
 
-import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
+import {
+  isAuthMiddleware,
+  DecodedUserTokenType,
+} from "../services/AuthService";
 import { Task } from "../models/TaskSchema";
 import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
@@ -79,6 +82,20 @@ router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
     res.send(task);
   } catch (error) {
     throw error;
+  }
+});
+
+// Edit task by ID
+router.put("/:id", isAuthMiddleware(UserRole.admin), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data } = req.body;
+    const task = Task.findById(id);
+    if (!task) new HttpException(404, "Task not found");
+    await Task.updateOne({ _id: id }, data);
+    res.send(await Task.findById(id));
+  } catch (error) {
+    throw new HttpException(404, error);
   }
 });
 

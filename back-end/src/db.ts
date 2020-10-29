@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import config from './config';
-import { logger } from './services/Logger';
-import { startupCheckSettings } from './services/Settings';
+import { logger } from './services/LoggerService';
+import { startupCheckSettings } from './services/SettingsService';
 
 mongoose.set("useCreateIndex", true);
 

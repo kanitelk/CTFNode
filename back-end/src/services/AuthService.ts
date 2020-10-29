@@ -4,7 +4,7 @@ import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
-import { logger } from "./Logger";
+import { logger } from "./LoggerService";
 
 export type DecodedUserTokenType = {
   _id?: string;

@@ -3,10 +3,10 @@ import express from "express";
 
 import { Task } from "../models/TaskSchema";
 import { Settings } from "../models/SettingsSchema";
-import { isAuthMiddleware, DecodedUserTokenType } from "../services/Auth";
+import { isAuthMiddleware, DecodedUserTokenType } from "../services/AuthService";
 import { UserRole, User } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
-import { logger } from "../services/Logger";
+import { logger } from "../services/LoggerService";
 
 const router = express.Router();
 
