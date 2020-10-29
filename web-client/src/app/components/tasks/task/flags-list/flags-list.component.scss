@@ -1,5 +1,16 @@
+.flags-list {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 100%;
+}
+
 .flags-list li {
   display: flex;
   flex-flow: row wrap;
   line-height: 2em;
+  margin: 10px;
+}
+
+.flags-table {
+  width: 100%;
 }

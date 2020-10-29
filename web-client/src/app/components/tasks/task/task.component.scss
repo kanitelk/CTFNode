@@ -5,6 +5,10 @@
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+
+  .tab-label-icon {
+    margin-right: 10px;
+  }
 }
 
 .task-card {
@@ -25,7 +29,10 @@
   }
 
   .task-content {
-    margin: 15px 0;
+    margin: 15px -5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
   }
 
   hr {
@@ -42,4 +49,8 @@
     margin: 0;
     margin-top: 10px;
   }
+
+  // .mat-tab-body-content {
+  //   max-width: 80vw !important;
+  // }
 }

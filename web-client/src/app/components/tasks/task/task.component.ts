@@ -20,7 +20,7 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendFlagForm = new FormGroup({
-      flag: new FormControl('', [Validators.required])
+      flag: new FormControl('', [Validators.required, Validators.minLength(1)])
     })
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -32,6 +32,7 @@ export class TaskComponent implements OnInit {
   submitFlag() {
     this.isLoading = true;
     const {flag} = this.sendFlagForm.value;
+    if (!this.sendFlagForm.valid) return;
     this._tasksService.sendFlag(this.id, flag).subscribe((data: any) => {
       if (data.correct) {
         this._snackBar.open(`Success. + ${data.score}`, null, {

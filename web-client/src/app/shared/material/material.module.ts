@@ -13,6 +13,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   declarations: [],
@@ -31,7 +32,8 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatSlideToggleModule,
     MatToolbarModule,
     MatDividerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule
   ],
   exports: [
     MatToolbarModule,
@@ -47,7 +49,8 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatSlideToggleModule,
     MatToolbarModule,
     MatDividerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule
   ],
 })
 export class MaterialModule {}

@@ -1,6 +1,33 @@
-<ul class="flags-list">
+<!-- <ul class="flags-list">
   <li *ngFor="let flag of flags">
     {{flag.value}}
     <mat-icon *ngIf="flag.isRight">check</mat-icon>
   </li>
-</ul>
+</ul> -->
+
+<table mat-table [dataSource]="flags" class="flags-table mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef>Flag</th>
+    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'short'}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="correct">
+    <th mat-header-cell *matHeaderCellDef>Correct</th>
+    <td mat-cell *matCellDef="let element"> {{element.isRight}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
