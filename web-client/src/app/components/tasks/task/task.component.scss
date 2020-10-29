@@ -9,17 +9,37 @@
 
 .task-card {
   @include material-card-block();
-  min-width: 300px;
-  max-width: 80%;
+  width: 400px;
 
   form {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    justify-content: center;
+    margin-top: 25px;
 
     button {
       margin-top: -20px;
       margin-left: 5px;
     }
+  }
+
+  .task-content {
+    margin: 15px 0;
+  }
+
+  hr {
+    color: #ccc;
+    background-color: #ccc;
+    // border: none;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .task-card {
+    width: 100%;
+    max-width: 90%;
+    margin: 0;
+    margin-top: 10px;
   }
 }

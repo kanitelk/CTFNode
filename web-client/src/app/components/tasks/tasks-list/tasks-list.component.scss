@@ -1,19 +1,22 @@
 @import "../../../../styles.scss";
 
-.tasks-list-view {
+.tasks-view {
   display: flex;
   flex-flow: column wrap;
+  align-items: center;
 }
 
 .tasks-list {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  align-items: center;
+  max-width: 80%;
 
   .mat-card {
     margin-right: 10px;
     margin-top: 10px;
-    min-width: 200px;
+    width: 300px;
     max-width: 300px;
   }
 
@@ -45,5 +48,17 @@
     margin-left: 15px;
     padding-bottom: 5px;
     margin-top: -5px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .tasks-list {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .tasks-list .mat-card {
+    width: 100%;
   }
 }

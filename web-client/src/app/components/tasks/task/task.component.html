@@ -1,14 +1,23 @@
 <div *ngIf="task" class="task">
-  <div class="task-card">
-    <h2>{{ task.title }}</h2>
-    <p>{{ task.content }}</p>
-    <form [formGroup]="sendFlagForm" (ngSubmit)="submitFlag()">
-      <mat-form-field appearance="outline">
-        <mat-label>Your flag</mat-label>
-        <input formControlName="flag" matInput />
-      </mat-form-field>
-      <button mat-stroked-button>Submit</button>
-    </form>
-  </div>
-  <app-flags-list [taskId]="id"></app-flags-list>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Task">
+      <div class="task-card">
+        <h2>{{ task.title }}</h2>
+        <hr />
+        <p class="task-content" [innerText]="task.content"></p>
+        <hr />
+        <form [formGroup]="sendFlagForm" (ngSubmit)="submitFlag()">
+          <mat-form-field appearance="outline">
+            <mat-label>Flag</mat-label>
+            <input formControlName="flag" matInput />
+          </mat-form-field>
+          <button mat-stroked-button>Submit</button>
+        </form>
+      </div>
+    </mat-tab>
+    <mat-tab label="My Flags">
+      <app-flags-list [taskId]="id"></app-flags-list
+    ></mat-tab>
+    <mat-tab label="User solves">Content 3</mat-tab>
+  </mat-tab-group>
 </div>
