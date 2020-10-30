@@ -1,0 +1,60 @@
+@import "../../../styles.scss";
+
+.user-view {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+
+  .tab-label-icon {
+    margin-right: 7px;
+  }
+
+  .user {
+    @include material-card-block();
+
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+
+    .username {
+      display: flex;
+      align-items: center;
+
+      .mat-icon {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+
+    .avatar {
+      .avatar-icon {
+        @include md-icon-size(80px);
+      }
+    }
+  }
+
+  .solves-table {
+    width: 400px;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .user {
+    width: 100%;
+    max-width: 90%;
+    margin: 0;
+    margin-top: 10px;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .solves-table {
+    width: 100%;
+    overflow: hidden;
+  }
+}

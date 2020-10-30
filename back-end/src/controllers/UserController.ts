@@ -1,14 +1,13 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { User, UserRole } from "../models/UserSchema";
-import UserService from "../services/UserService";
+import mongoose from "mongoose";
+
+import { User, UserDocument, UserRole } from "../models/UserSchema";
 import {
-  isAuthMiddleware,
-  getToken,
-  decodeToken,
   DecodedUserTokenType,
+  isAuthMiddleware,
 } from "../services/AuthService";
-import { isError } from "lodash";
+import UserService from "../services/UserService";
 import { HttpException } from "../utils/errorHandler";
 
 const router = express.Router();
@@ -22,6 +21,44 @@ router.use(
     limit: "10kb",
   })
 );
+
+router.get("/:id", isAuthMiddleware(), async (req, res) => {
+  const { id } = req.params;
+  let user: UserDocument = null;
+  let initiator: DecodedUserTokenType = res.locals.user;
+
+  try {
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      user = await User.findById(id);
+    } else {
+      user = await User.findOne({ login: id });
+    }
+    if (user === null) {
+      throw new HttpException(404, "User not found");
+    }
+
+    if (user && initiator !== undefined && initiator.role === UserRole.admin) {
+      res.send({
+        _id: user._id,
+        login: user.login,
+        email: user.email,
+        createdAt: user.createdAt,
+        role: user.role,
+        score: user.score,
+      });
+    } else {
+      res.send({
+        _id: user._id,
+        login: user.login,
+        createdAt: user.createdAt,
+        role: user.role,
+        score: user.score,
+      });
+    }
+  } catch (error) {
+    // res.status(400).send(error);
+  }
+});
 
 // Create new user
 router.post("/", async (req, res) => {

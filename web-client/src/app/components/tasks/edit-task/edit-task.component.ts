@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TaskService } from "src/app/services/task.service";
-import { Task } from "../tasks-list/tasks-list.component";
+import { Task, TaskService } from "src/app/services/TaskService/Task.service";
 
 @Component({
   selector: "app-edit-task",
@@ -19,7 +18,7 @@ export class EditTaskComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private _taskService: TaskService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

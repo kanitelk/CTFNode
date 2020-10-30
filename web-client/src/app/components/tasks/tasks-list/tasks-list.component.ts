@@ -1,19 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { TaskService } from "../../../services/task.service";
-import { AuthService } from "src/app/services/auth.service";
-
-export interface Task {
-  _id: string;
-  title: string;
-  content?: string;
-  visible?: boolean;
-  categories?: string;
-  images?: string[];
-  files?: string[];
-  flag?: string;
-  answer?: string;
-  score: number;
-}
+import { Task, TaskService } from "../../../services/TaskService/Task.service";
+import { AuthService } from "src/app/services/AuthService/auth.service";
 
 @Component({
   selector: "app-tasks-list",

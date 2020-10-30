@@ -5,7 +5,9 @@ export type UserDocument = mongoose.Document & {
   email: string,
   password: string,
   role: UserRole,
-  score: number
+  score: number,
+  createdAt: Date,
+  updatedAt: Date
 };
 
 const userSchema = new mongoose.Schema(

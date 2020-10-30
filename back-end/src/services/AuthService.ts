@@ -6,7 +6,6 @@ import { UserRole } from "../models/UserSchema";
 import { HttpException } from "../utils/errorHandler";
 import { logger } from "./LoggerService";
 
-
 export type DecodedUserTokenType = {
   _id?: string;
   login?: string;
@@ -18,8 +17,9 @@ export type DecodedUserTokenType = {
  * @param  {express.Request} req
  * @returns string
  */
-export const getToken = (req: express.Request): string =>
-  req.headers.authorization.split(" ")[1];
+export const getToken = (req: express.Request): string => {
+  return req.headers.authorization.split(" ")[1];
+};
 
 /**
  * Generate JWT
@@ -28,7 +28,11 @@ export const getToken = (req: express.Request): string =>
  * @param  {string} role
  * @returns string
  */
-export const generateToken = (_id: string, login: string, role: string): string => {
+export const generateToken = (
+  _id: string,
+  login: string,
+  role: string
+): string => {
   const data = {
     _id,
     login,
@@ -52,24 +56,31 @@ export const decodeToken = (token: string): DecodedUserTokenType => {
  * Express middleware for checking user auth and user role
  * @param  {UserRole} role
  */
-export const isAuthMiddleware = (role: UserRole) => {
+export const isAuthMiddleware = (role?: UserRole) => {
   return function (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction
   ) {
     try {
+      if (!req.headers.authorization && !role) {
+        next()
+        return
+      }
       const token = getToken(req);
-      const decodedToken = jwt.verify(token, config.tokenSecret, (err, decoded) => {
-        req.user = decoded;
-        if (err) throw new HttpException(401, `Auth error: ${err.message}`);
-      });
-      
+      const decodedToken = jwt.verify(
+        token,
+        config.tokenSecret,
+        (err, decoded) => {
+          req.user = decoded;
+          if (err) throw new HttpException(401, `Auth error: ${err.message}`);
+        }
+      );
+
       if (
         role === UserRole.admin &&
         decodeToken(token).role !== UserRole.admin
       ) {
-
         throw new HttpException(401, "You do not have administrator rights");
       }
       res.locals.user = decodeToken(token);

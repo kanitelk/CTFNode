@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { TaskService } from "src/app/services/task.service";
+import { TaskService } from "src/app/services/TaskService/Task.service";
 
 type Flag = {
   _id: string;

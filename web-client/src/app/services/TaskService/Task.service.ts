@@ -1,9 +1,21 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { AuthService } from "./auth.service";
+import { environment } from "../../../environments/environment";
+import { AuthService } from "../AuthService/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Task } from "../components/tasks/tasks-list/tasks-list.component";
+
+export interface Task {
+  _id: string;
+  title: string;
+  content?: string;
+  visible?: boolean;
+  categories?: string;
+  images?: string[];
+  files?: string[];
+  flag?: string;
+  answer?: string;
+  score: number;
+}
 
 @Injectable({
   providedIn: "root",

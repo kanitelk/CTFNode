@@ -71,6 +71,20 @@ router.get("/:id/flags", isAuthMiddleware(UserRole.user), async (req, res) => {
   }
 });
 
+// Get user'solves for this task
+router.get("/:id/solves", async (req, res) => {
+  try {
+    const { id } = req.params;
+    let solves = await Flag.find({ task: id, isRight: true }).populate("user", [
+      "login",
+      "score",
+    ]);
+    res.send(solves);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // Add new task
 router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
   const { data } = req.body;
