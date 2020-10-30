@@ -13,6 +13,7 @@ export type User = {
   createdAt: Date;
 };
 
+// In profile
 export type SolveItem = {
   _id: string;
   task: {
@@ -22,6 +23,17 @@ export type SolveItem = {
   };
   createdAt: Date;
 };
+
+// In tasks
+export type UsersSolveItem = {
+  _id: string,
+  user: {
+    _id: string,
+    login: string,
+    score: number
+  },
+  createdAt: Date
+}
 
 @Injectable({
   providedIn: "root",
@@ -41,5 +53,13 @@ export class UserService {
    */
   public getAllUserSolves(user_id: string) {
     return this.http.get(`${this.API_URL}/flags/${user_id}`);
+  }
+
+  /**
+   *  Get users solves for one tasl
+   * @param  {string} task_id
+   */
+  public getUserSolvesForTask(task_id: string) {
+    return this.http.get(`${this.API_URL}/tasks/${task_id}/solves`);
   }
 }

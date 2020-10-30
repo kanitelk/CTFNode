@@ -50,6 +50,7 @@ router.post("/send", isAuthMiddleware(UserRole.user), async (req, res) => {
     });
     if (similarFlag) {
       res.status(401).send({ error: "You have already answered correctly" });
+      return;
       // throw new HttpException(400, `You have already answered correctly`);
     }
 

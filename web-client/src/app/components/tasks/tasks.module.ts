@@ -1,24 +1,31 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { SharedModule } from '../../shared/shared.module';
-import { AddTaskComponent } from './add-task/add-task.component';
-import { FlagsListComponent } from './task/flags-list/flags-list.component';
-import { TaskComponent } from './task/task.component';
-import { TasksListComponent } from './tasks-list/tasks-list.component';
-import { TasksRoutingModule } from './tasks-routing.module';
-import { EditTaskComponent } from './edit-task/edit-task.component';
-
+import { SharedModule } from "../../shared/shared.module";
+import { AddTaskComponent } from "./add-task/add-task.component";
+import { FlagsListComponent } from "./task/flags-list/flags-list.component";
+import { TaskComponent } from "./task/task.component";
+import { TasksListComponent } from "./tasks-list/tasks-list.component";
+import { TasksRoutingModule } from "./tasks-routing.module";
+import { EditTaskComponent } from "./edit-task/edit-task.component";
+import { SolvesListComponent } from "./task/solves-list/solves-list.component";
 
 @NgModule({
-  declarations: [TasksListComponent, TaskComponent, AddTaskComponent, FlagsListComponent, EditTaskComponent],
+  declarations: [
+    TasksListComponent,
+    TaskComponent,
+    AddTaskComponent,
+    FlagsListComponent,
+    EditTaskComponent,
+    SolvesListComponent,
+  ],
   imports: [
     CommonModule,
     TasksRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class TasksModule { }
+export class TasksModule {}

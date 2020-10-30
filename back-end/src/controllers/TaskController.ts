@@ -71,11 +71,11 @@ router.get("/:id/flags", isAuthMiddleware(UserRole.user), async (req, res) => {
   }
 });
 
-// Get user'solves for this task
+// Get solves from all users for this task
 router.get("/:id/solves", async (req, res) => {
   try {
     const { id } = req.params;
-    let solves = await Flag.find({ task: id, isRight: true }).populate("user", [
+    let solves = await Flag.find({ task: id, isRight: true }, {_id: 1, user: 1, createdAt: 1}).populate("user", [
       "login",
       "score",
     ]);
