@@ -14,6 +14,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableModule } from "@angular/material/table";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [],
@@ -33,7 +35,9 @@ import { MatTableModule } from "@angular/material/table";
     MatToolbarModule,
     MatDividerModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule,
+    MatTooltipModule
   ],
   exports: [
     MatToolbarModule,
@@ -50,7 +54,9 @@ import { MatTableModule } from "@angular/material/table";
     MatToolbarModule,
     MatDividerModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule,
+    MatTooltipModule
   ],
 })
 export class MaterialModule {}

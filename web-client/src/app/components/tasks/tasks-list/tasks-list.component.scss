@@ -20,8 +20,27 @@
     max-width: 300px;
   }
 
+  .mat-card-header {
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
   .mat-card-title {
     margin-left: -16px;
+  }
+
+  .task-points {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    margin: 5px;
+    background-color: #e6e6e6;
+    font-weight: 600;
+    height: 25px;
+    min-width: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    // line-height: 1em;
   }
 
   .mat-card-actions {

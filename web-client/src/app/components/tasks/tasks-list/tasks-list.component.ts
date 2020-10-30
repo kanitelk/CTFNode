@@ -10,7 +10,9 @@ export interface Task {
   categories?: string;
   images?: string[];
   files?: string[];
+  flag?: string;
   answer?: string;
+  score: number;
 }
 
 @Component({
@@ -30,12 +32,17 @@ export class TasksListComponent implements OnInit {
       this.tasks = data;
       this.tasks = this.tasks.map((task) => {
         let content = task.content;
+        let title = task.title;
         if (content.length > 40) {
           content = content.substring(0, 40) + "...";
+        }
+        if (title.length > 30) {
+          title = title.substring(0, 40) + "...";
         }
         return {
           ...task,
           content,
+          title
         };
       });
     });

@@ -1,0 +1,23 @@
+@import "../../../../styles.scss";
+
+.edit-task-view {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+
+  form {
+    display: flex;
+    flex-flow: column wrap;
+    min-width: 300px;
+    max-width: 400px;
+    @include material-card-block();
+  }
+
+  .blur {
+    filter: blur(3px);
+  }
+
+  .mat-slide-toggle {
+    margin-bottom: 15px;
+  }
+}

@@ -3,6 +3,7 @@ import { environment } from "../../environments/environment";
 import { AuthService } from "./auth.service";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { Task } from "../components/tasks/tasks-list/tasks-list.component";
 
 @Injectable({
   providedIn: "root",
@@ -34,7 +35,25 @@ export class TaskService {
       flag,
       score,
     };
-    return this.http.post(`${this.API_URL}/tasks/`, {data: data});
+    return this.http.post(`${this.API_URL}/tasks/`, { data: data });
+  }
+
+  public editTask(
+    _id: string,
+    title: string,
+    content: string,
+    visible: boolean,
+    flag: string,
+    score: number
+  ) {
+    const data = {
+      title,
+      content,
+      visible,
+      flag,
+      score,
+    };
+    return this.http.put(`${this.API_URL}/tasks/${_id}`, { data });
   }
 
   public sendFlag(taskId: string, flag: string) {

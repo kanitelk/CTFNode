@@ -1,0 +1,26 @@
+<div class="edit-task-view">
+  <h2>Edit task</h2>
+  <form [formGroup]="editForm" [class]="{'blur': isLoading}" (ngSubmit)="submit()">
+    <!-- <mat-spinner class="spinner"></mat-spinner> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea formControlName="content" matInput></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Answer (Flag)</mat-label>
+      <input formControlName="flag" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Score</mat-label>
+      <input type="number" formControlName="score" matInput />
+    </mat-form-field>
+    <mat-slide-toggle formControlName="visible">Visible</mat-slide-toggle>
+    <button [disabled]="editForm.invalid" mat-raised-button color="primary">
+      Save
+    </button>
+  </form>
+</div>

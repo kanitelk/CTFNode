@@ -16,6 +16,9 @@
         <mat-card-title>
           {{ task.title }}
         </mat-card-title>
+        <div class="task-points" matTooltip="Task points">
+          <p>{{ task.score }}</p>
+        </div>
       </mat-card-header>
       <mat-card-content>
         <p>{{ task.content }}</p>
@@ -24,13 +27,13 @@
         <button
           class="edit-task"
           *ngIf="authService.isAdmin | async"
-          [routerLink]="['./task', task._id]"
+          [routerLink]="['./', task._id, 'edit']"
           mat-stroked-button
         >
           <mat-icon>edit</mat-icon>
         </button>
         <button
-          [routerLink]="['./task', task._id]"
+          [routerLink]="['./', task._id]"
           mat-stroked-button
           color="primary"
         >
