@@ -10,6 +10,7 @@ import {
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
+      cursor: "pointer",
+      textDecoration: 'none',
+      color: '#fff',
+      fontWeight: 600
     },
   })
 );
@@ -39,10 +44,12 @@ const Header: React.FC = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          CTF Node
-        </Typography>
-        <Button color="inherit">Login</Button>
+        <Link className={classes.title} to="/">
+          CTFNode
+        </Link>
+        <Button component={Link} to="/login" color="inherit">
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   );
