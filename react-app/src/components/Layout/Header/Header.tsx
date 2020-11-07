@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       cursor: "pointer",
-      textDecoration: 'none',
-      color: '#fff',
-      fontWeight: 600
+      textDecoration: "none",
+      color: "#fff",
+      fontWeight: 600,
     },
   })
 );
@@ -44,9 +44,9 @@ const Header: React.FC = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Link className={classes.title} to="/">
+        <Typography component={Link} className={classes.title} to="/">
           CTFNode
-        </Link>
+        </Typography>
         <Button component={Link} to="/login" color="inherit">
           Login
         </Button>
