@@ -13,8 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
-import { register_new_user } from "../../services/auth";
+import AuthService from "../../services/AuthService";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,7 +51,7 @@ function RegisterForm() {
   const onSubmit = async (data: RegisterFormInput) => {
     setLoading(true);
     try {
-      let res = await register_new_user(data);
+      let res = await AuthService.register_new_user(data);
       console.log(res);
     } catch (error) {
       console.log(error.response?.data?.message);
