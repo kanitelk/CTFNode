@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import * as React from "react";
-import { LoginForm } from "../../components/Auth/LoginForm";
+import LoginForm from "../../components/Auth/LoginForm";
 
 const useStyles = makeStyles({
   root: {

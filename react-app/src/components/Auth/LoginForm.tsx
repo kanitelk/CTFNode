@@ -12,8 +12,11 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
+import { AuthState } from "../../store/reducers/authReducer";
+import { RootState } from "../../store/reducers/rootReducer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,7 +43,24 @@ export type LoginFormInput = {
   password: string;
 };
 
-function LoginForm() {
+// interface StateProps {
+//   auth: AuthState;
+// }
+// interface DispatchProps {
+//   login: () => void;
+// }
+
+// type Props = StateProps & DispatchProps;
+
+const mapState = (state: RootState) => ({
+  auth: state.authReducer,
+});
+
+const mapDispatch = {
+  login: () => ({ type: "LOGIN" }),
+};
+
+function LoginForm(props: PropsFromRedux) {
   const classes = useStyles();
   const { register, formState, handleSubmit } = useForm<LoginFormInput>({
     mode: "onChange",
@@ -130,4 +150,13 @@ function LoginForm() {
   );
 }
 
-export { LoginForm };
+type StateProps = ReturnType<typeof mapState>;
+type DispatchProps = typeof mapDispatch;
+
+type Props = StateProps & DispatchProps;
+
+const connector = connect(mapState, mapDispatch);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(LoginForm);
