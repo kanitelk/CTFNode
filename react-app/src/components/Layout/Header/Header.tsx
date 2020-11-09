@@ -5,6 +5,7 @@ import {
   makeStyles,
   Theme,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar/AppBar";
@@ -22,15 +23,24 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
     title: {
-      flexGrow: 1,
       cursor: "pointer",
       textDecoration: "none",
       color: "#fff",
       fontWeight: 600,
+      fontSize: '1.25rem',
+      flexGrow: 1,
+    },
+    menu: {
+      flexGrow: 1,
+      marginLeft: theme.spacing(2),
+      marginTop: "3px",
     },
   })
 );
@@ -47,7 +57,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar className={classes.appBar} position="fixed">
       <Toolbar>
         <IconButton
           edge="start"
@@ -62,10 +72,14 @@ const Header: React.FC = () => {
         </Typography>
         {auth.isAuth ? (
           <>
-            <Button component={Link} to="/profile" color="inherit">
-              {auth.user?.login}
-            </Button>
-            <ExitToAppIcon onClick={logoutHandler} />
+            <Tooltip title="Profile">
+              <Button component={Link} to="/profile" color="inherit">
+                {auth.user?.login}
+              </Button>
+            </Tooltip>
+            <Tooltip title="Logout">
+              <ExitToAppIcon onClick={logoutHandler} />
+            </Tooltip>
           </>
         ) : (
           <Button component={Link} to="/login" color="inherit">

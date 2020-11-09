@@ -8,15 +8,38 @@ import { HomePage } from "../../pages/Home/HomePage";
 import { Header } from "../Layout/Header/Header";
 import { LoginPage } from "../../pages/Login/LoginPage";
 import { RegisterPage } from "../../pages/Login/RegisterPage";
+import { Sidebar } from "../Layout/Sidebar/Sidebar";
+import {
+  createStyles,
+  CssBaseline,
+  makeStyles,
+  Theme,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+  })
+);
 
 function App() {
+  const classes = useStyles();
+
   return (
-    <div className="App" style={{ height: "100%" }}>
+    <div className="App" style={{ height: "100%", display: "flex" }}>
+      <CssBaseline />
       <Router>
         <Header />
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={LoginPage} />
-        <Route path="/register" exact component={RegisterPage} />
+        <Sidebar />
+        <main className={classes.content}>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" exact component={LoginPage} />
+          <Route path="/register" exact component={RegisterPage} />
+          <Route path="/tasks" exact component={RegisterPage} />
+        </main>
       </Router>
     </div>
   );
