@@ -11,7 +11,8 @@ import AppBar from "@material-ui/core/AppBar/AppBar";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import { RootState } from "../../../store/rootReducer";
 
 const useStyles = makeStyles((theme: Theme) =>

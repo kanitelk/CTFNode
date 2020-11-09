@@ -7,14 +7,14 @@ export enum UserRoleEnum {
 }
 
 export type UserAuthData = {
+  _id: string,
   login: string;
   role: UserRoleEnum;
-  token: string;
 };
 
 interface LoginUserAction {
   type: typeof LOGIN_USER;
-  payload: UserAuthData;
+  payload: string;
 }
 
 interface LogoutUserAction {

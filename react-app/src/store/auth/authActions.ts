@@ -1,14 +1,9 @@
-import {
-  AuthActionTypes,
-  LOGIN_USER,
-  LOGOUT_USER,
-  UserAuthData,
-} from "./types";
+import { AuthActionTypes, LOGIN_USER, LOGOUT_USER } from "./types";
 
-export const loginUserAction = (authData: UserAuthData): AuthActionTypes => {
+export const loginUserAction = (token: string): AuthActionTypes => {
   return {
     type: LOGIN_USER,
-    payload: authData,
+    payload: token,
   };
 };
 

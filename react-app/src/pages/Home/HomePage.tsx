@@ -18,7 +18,7 @@ const HomePage = () => {
       justify="center"
       alignItems="center"
     >
-      <Grid item spacing={2}>
+      <Grid item>
         <Typography variant="h4" component="h4">
           It's time to start CTF!
         </Typography>

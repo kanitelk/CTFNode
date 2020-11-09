@@ -16,10 +16,12 @@ class AuthService {
     return res.data;
   };
 
-  login_user = async (data: LoginFormInput) => {
+  login_user = async (
+    data: LoginFormInput
+  ): Promise<{ login: string; token: string }> => {
     let res = await this._http.post(`/users/login`, data);
     return res.data;
   };
 }
 
-export default new AuthService(http)
+export default new AuthService(http);

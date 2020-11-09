@@ -44,34 +44,26 @@ export type LoginFormInput = {
   password: string;
 };
 
-// interface StateProps {
-//   auth: AuthState;
-// }
-// interface DispatchProps {
-//   login: () => void;
-// }
-
-// type Props = StateProps & DispatchProps;
-
 const mapState = (state: RootState) => ({
   auth: state.authReducer,
 });
 
 function LoginForm(props: PropsFromRedux) {
   const classes = useStyles();
-  const { register, formState, handleSubmit } = useForm<LoginFormInput>({
-    mode: "onChange",
-  });
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useHistory();
+  const { register, formState, handleSubmit } = useForm<LoginFormInput>({
+    mode: "onChange",
+  });
 
   const onSubmit = async (data: LoginFormInput) => {
     setLoading(true);
     try {
       let res = await AuthService.login_user(data);
-      dispatch(loginUserAction(res));
-      router.push('/')
+      dispatch(loginUserAction(res.token));
+      localStorage.setItem("token", res.token);
+      router.push("/");
     } catch (error) {
       console.log(error.response?.data?.message);
     } finally {
@@ -150,12 +142,7 @@ function LoginForm(props: PropsFromRedux) {
   );
 }
 
-type StateProps = ReturnType<typeof mapState>;
-
-type Props = StateProps;
-
 const connector = connect(mapState, null);
-
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(LoginForm);
