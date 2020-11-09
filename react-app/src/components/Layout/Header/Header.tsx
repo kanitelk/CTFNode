@@ -10,7 +10,9 @@ import {
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { RootState } from "../../../store/rootReducer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC = () => {
   const classes = useStyles();
+  const auth = useSelector((state: RootState) => state.authReducer);
 
   return (
     <AppBar position="static">
@@ -47,9 +50,15 @@ const Header: React.FC = () => {
         <Typography component={Link} className={classes.title} to="/">
           CTFNode
         </Typography>
-        <Button component={Link} to="/login" color="inherit">
-          Login
-        </Button>
+        {auth.isAuth ? (
+          <Button component={Link} to="/profile" color="inherit">
+            {auth.user?.login}
+          </Button>
+        ) : (
+          <Button component={Link} to="/login" color="inherit">
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

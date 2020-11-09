@@ -1,5 +1,6 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import * as React from "react";
+
 import { RegisterForm } from "../../components/Auth/RegisterForm";
 
 const useStyles = makeStyles({
@@ -7,6 +8,7 @@ const useStyles = makeStyles({
     height: "50vh",
   },
 });
+
 
 const RegisterPage = () => {
   const classes = useStyles();

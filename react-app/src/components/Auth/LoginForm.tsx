@@ -12,11 +12,12 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { connect, ConnectedProps } from "react-redux";
-import { Link } from "react-router-dom";
+import { connect, ConnectedProps, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+
 import AuthService from "../../services/AuthService";
-import { AuthState } from "../../store/reducers/authReducer";
-import { RootState } from "../../store/reducers/rootReducer";
+import { loginUserAction } from "../../store/auth/authActions";
+import { RootState } from "../../store/rootReducer";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -56,22 +57,21 @@ const mapState = (state: RootState) => ({
   auth: state.authReducer,
 });
 
-const mapDispatch = {
-  login: () => ({ type: "LOGIN" }),
-};
-
 function LoginForm(props: PropsFromRedux) {
   const classes = useStyles();
   const { register, formState, handleSubmit } = useForm<LoginFormInput>({
     mode: "onChange",
   });
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const router = useHistory();
 
   const onSubmit = async (data: LoginFormInput) => {
     setLoading(true);
     try {
       let res = await AuthService.login_user(data);
-      console.log(res);
+      dispatch(loginUserAction(res));
+      router.push('/')
     } catch (error) {
       console.log(error.response?.data?.message);
     } finally {
@@ -151,11 +151,10 @@ function LoginForm(props: PropsFromRedux) {
 }
 
 type StateProps = ReturnType<typeof mapState>;
-type DispatchProps = typeof mapDispatch;
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps;
 
-const connector = connect(mapState, mapDispatch);
+const connector = connect(mapState, null);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
