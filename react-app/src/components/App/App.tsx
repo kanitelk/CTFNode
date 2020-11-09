@@ -15,6 +15,8 @@ import {
   makeStyles,
   Theme,
 } from "@material-ui/core";
+import { RootState } from "../../store/rootReducer";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,13 +29,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const auth = useSelector((state: RootState) => state.authReducer);
 
   return (
     <div className="App" style={{ height: "100%", display: "flex" }}>
       <CssBaseline />
       <Router>
         <Header />
-        <Sidebar />
+        {auth.isAuth && <Sidebar />}
         <main className={classes.content}>
           <Route path="/" exact component={HomePage} />
           <Route path="/login" exact component={LoginPage} />

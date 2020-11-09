@@ -11,6 +11,8 @@ import GroupIcon from "@material-ui/icons/Group";
 import FlagIcon from "@material-ui/icons/Flag";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/rootReducer";
 
 const drawerWidth = 240;
 
@@ -38,7 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Sidebar = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const auth = useSelector((state: RootState) => state.authReducer)
+  const [open, setOpen] = useState(auth.isAuth);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -52,7 +55,6 @@ export const Sidebar = () => {
     <Drawer
       className={classes.drawer}
       variant="permanent"
-      open={open}
       classes={{
         paper: classes.drawerPaper,
       }}
