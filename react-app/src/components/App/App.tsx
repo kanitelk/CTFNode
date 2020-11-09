@@ -17,6 +17,8 @@ import {
 } from "@material-ui/core";
 import { RootState } from "../../store/rootReducer";
 import { useSelector } from "react-redux";
+import { ProtectedRoute } from "../../utils/ProtectedRoute";
+import { UserRoleEnum } from "../../store/auth/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +43,12 @@ function App() {
           <Route path="/" exact component={HomePage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
-          <Route path="/tasks" exact component={RegisterPage} />
+          <ProtectedRoute
+            path="/tasks"
+            role={UserRoleEnum.user}
+            exact
+            component={RegisterPage}
+          />
         </main>
       </Router>
     </div>
