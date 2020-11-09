@@ -12,8 +12,10 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import AuthService from "../../services/AuthService";
+import { loginUserAction } from "../../store/auth/authActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,16 +45,21 @@ export type RegisterFormInput = {
 
 function RegisterForm() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const router = useHistory();
+  const [loading, setLoading] = useState(false);
   const { register, formState, handleSubmit } = useForm<RegisterFormInput>({
     mode: "onChange",
   });
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: RegisterFormInput) => {
     setLoading(true);
     try {
       let res = await AuthService.register_new_user(data);
-      console.log(res);
+      dispatch(loginUserAction(res.token));
+      localStorage.setItem("token", res.token);
+      setLoading(false);
+      router.push("/");
     } catch (error) {
       console.log(error.response?.data?.message);
     } finally {

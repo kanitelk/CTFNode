@@ -10,10 +10,12 @@ import {
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import { RootState } from "../../../store/rootReducer";
+import { logoutUserAction } from "../../../store/auth/authActions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const Header: React.FC = () => {
   const classes = useStyles();
   const auth = useSelector((state: RootState) => state.authReducer);
+  const dispath = useDispatch();
+  const router = useHistory();
+
+  const logoutHandler = () => {
+    dispath(logoutUserAction());
+    router.push("/");
+  };
 
   return (
     <AppBar position="static">
@@ -52,9 +61,12 @@ const Header: React.FC = () => {
           CTFNode
         </Typography>
         {auth.isAuth ? (
-          <Button component={Link} to="/profile" color="inherit">
-            {auth.user?.login}
-          </Button>
+          <>
+            <Button component={Link} to="/profile" color="inherit">
+              {auth.user?.login}
+            </Button>
+            <ExitToAppIcon onClick={logoutHandler} />
+          </>
         ) : (
           <Button component={Link} to="/login" color="inherit">
             Login

@@ -63,6 +63,7 @@ function LoginForm(props: PropsFromRedux) {
       let res = await AuthService.login_user(data);
       dispatch(loginUserAction(res.token));
       localStorage.setItem("token", res.token);
+      setLoading(false);
       router.push("/");
     } catch (error) {
       console.log(error.response?.data?.message);

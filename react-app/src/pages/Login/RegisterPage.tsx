@@ -9,7 +9,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 const RegisterPage = () => {
   const classes = useStyles();
 
@@ -21,7 +20,7 @@ const RegisterPage = () => {
       justify="center"
       alignItems="center"
     >
-      <Grid item spacing={2}>
+      <Grid item>
         <RegisterForm />
       </Grid>
     </Grid>

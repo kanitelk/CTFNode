@@ -19,7 +19,7 @@ const LoginPage = () => {
       justify="center"
       alignItems="center"
     >
-      <Grid item spacing={2}>
+      <Grid item>
         <LoginForm />
       </Grid>
     </Grid>

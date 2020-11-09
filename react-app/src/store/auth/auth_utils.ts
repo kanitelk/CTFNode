@@ -1,5 +1,9 @@
 import jwt_decode from "jwt-decode";
 
+/**
+ * Check JWT for valid and return user date from token
+ * @param  {string|null} token?
+ */
 export const check_auth_token = (token?: string | null) => {
   if (!token) token = localStorage.getItem("token");
   if (!token) return null;
@@ -26,5 +30,5 @@ export const check_auth_token = (token?: string | null) => {
 };
 
 export const clear_token = () => {
-  localStorage.removeItem('token');
-}
+  localStorage.removeItem("token");
+};
