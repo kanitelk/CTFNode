@@ -45,7 +45,7 @@ export type LoginFormInput = {
 };
 
 const mapState = (state: RootState) => ({
-  auth: state.authReducer,
+  auth: state.auth,
 });
 
 function LoginForm(props: PropsFromRedux) {

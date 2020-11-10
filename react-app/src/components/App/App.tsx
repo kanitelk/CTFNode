@@ -19,20 +19,21 @@ import { RootState } from "../../store/rootReducer";
 import { useSelector } from "react-redux";
 import { ProtectedRoute } from "../../utils/ProtectedRoute";
 import { UserRoleEnum } from "../../store/auth/types";
-import { TasksPage } from "../../pages/Task/TasksPage";
+import TasksPage from "../../pages/Task/TasksPage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      marginTop: "4rem",
     },
   })
 );
 
 function App() {
   const classes = useStyles();
-  const auth = useSelector((state: RootState) => state.authReducer);
+  const auth = useSelector((state: RootState) => state.auth);
 
   return (
     <div className="App" style={{ height: "100%", display: "flex" }}>

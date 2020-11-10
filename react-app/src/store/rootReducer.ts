@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import authReducer from "./auth/authReducer";
-import todosReducer from "./tasks/tasksReducer";
+import auth from "./auth/authReducer";
+import tasks from "./tasks/tasksReducer";
 
-export const rootReducer = combineReducers({ authReducer, todosReducer });
+export const rootReducer = combineReducers({ auth, tasks });
 
 export type RootState = ReturnType<typeof rootReducer>;

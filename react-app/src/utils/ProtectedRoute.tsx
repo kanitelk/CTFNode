@@ -9,7 +9,7 @@ const ProtectedRoute = ({
   path,
   role,
 }: RouteProps & { role: UserRoleEnum }) => {
-  const auth = useSelector((state: RootState) => state.authReducer);
+  const auth = useSelector((state: RootState) => state.auth);
 
   if (!auth.isAuth) {
     return <Redirect to="/login" />;

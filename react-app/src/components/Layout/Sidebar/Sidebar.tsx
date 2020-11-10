@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Sidebar = () => {
   const classes = useStyles();
-  const auth = useSelector((state: RootState) => state.authReducer)
+  const auth = useSelector((state: RootState) => state.auth)
   const [open, setOpen] = useState(auth.isAuth);
 
   const handleDrawerOpen = () => {
