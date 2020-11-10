@@ -19,6 +19,7 @@ import { RootState } from "../../store/rootReducer";
 import { useSelector } from "react-redux";
 import { ProtectedRoute } from "../../utils/ProtectedRoute";
 import { UserRoleEnum } from "../../store/auth/types";
+import { TasksPage } from "../../pages/Task/TasksPage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +48,7 @@ function App() {
             path="/tasks"
             role={UserRoleEnum.user}
             exact
-            component={RegisterPage}
+            component={TasksPage}
           />
         </main>
       </Router>

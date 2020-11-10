@@ -15,7 +15,11 @@ const ProtectedRoute = ({
     return <Redirect to="/login" />;
   }
 
-  if (role && auth.user?.role !== role) {
+  if (
+    role &&
+    auth.user?.role === UserRoleEnum.user &&
+    role === UserRoleEnum.admin
+  ) {
     return <Redirect to="/login" />;
   }
 
