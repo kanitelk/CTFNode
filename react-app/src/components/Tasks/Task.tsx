@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: theme.spacing(3),
       paddingTop: theme.spacing(1),
+      margin: theme.spacing(1),
     },
     form: {
       display: "flex",
@@ -34,11 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       marginTop: theme.spacing(1),
     },
-    title: {
-      margin: theme.spacing(1),
+    title: {},
+    score: {
+      marginBottom: theme.spacing(1),
     },
     content: {
-      margin: theme.spacing(1),
+      marginBottom: theme.spacing(1),
     },
   })
 );
@@ -66,8 +68,6 @@ const Task = () => {
   }, [id]);
 
   const onFlagSubmit = async (data: FormFlagData) => {
-    console.log(data);
-    
     setSubmitting(true);
     try {
       let res = await TaskService.sendFlag(id, data.flag);
@@ -93,6 +93,9 @@ const Task = () => {
             <Typography className={classes.title} variant="h6">
               {task?.title}
             </Typography>
+            <Typography className={classes.score} variant="subtitle2">
+              Score: {task?.score}
+            </Typography>
             <Typography className={classes.content} variant="body2">
               {task?.content}
             </Typography>
@@ -114,8 +117,13 @@ const Task = () => {
             style={{ marginLeft: "7px" }}
             color="primary"
             disabled={!formState.isValid}
+            onClick={handleSubmit(onFlagSubmit)}
           >
-            {isSubmiting ? <CircularProgress color="secondary" size={15} /> : `Submit`}
+            {isSubmiting ? (
+              <CircularProgress color="secondary" size={15} />
+            ) : (
+              `Submit`
+            )}
           </Button>
         </form>
       </Paper>
