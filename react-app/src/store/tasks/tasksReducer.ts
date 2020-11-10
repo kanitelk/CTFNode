@@ -1,4 +1,4 @@
-import { FETCH_TASKS, FETCH_TASKS_ERROR, ITask, SET_TASKS, TasksActionTypes } from "./types";
+import { FETCH_TASK, FETCH_TASKS, FETCH_TASKS_ERROR, ITask, SET_TASK, SET_TASKS, TasksActionTypes } from "./types";
 
 const initialState = {
   tasks: [],
@@ -25,6 +25,7 @@ const tasksReducer = (
       return {
         ...state,
         isLoadingTasks: true,
+        error: null
       };
     case SET_TASKS:
       return {
@@ -34,7 +35,19 @@ const tasksReducer = (
       };
     case FETCH_TASKS_ERROR:
       return {
-        ...state, tasks: [], error: action.payload
+        ...state, tasks: [], error: action.payload as string
+      }
+    case FETCH_TASK:
+      return {
+        ...state,
+        isLoadingTask: true,
+        error: null,
+      };
+    case SET_TASK:
+      return {
+        ...state,
+        isLoadingTask: false,
+        currentTask: action.payload,
       }
     default:
       return state;

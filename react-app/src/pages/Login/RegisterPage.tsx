@@ -27,4 +27,4 @@ const RegisterPage = () => {
   );
 };
 
-export { RegisterPage };
+export default RegisterPage;

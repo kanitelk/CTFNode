@@ -28,7 +28,8 @@ export interface ITask {
 }
 
 interface fetchTasksAction {
-  type: typeof FETCH_TASKS;
+  type: typeof FETCH_TASKS,
+  payload: null
 }
 
 interface setTasksAction {
@@ -37,8 +38,29 @@ interface setTasksAction {
 }
 
 interface fetchTasksErrorAction {
-  type: typeof FETCH_TASKS_ERROR,
-  payload: string
+  type: typeof FETCH_TASKS_ERROR;
+  payload: string;
 }
 
-export type TasksActionTypes = fetchTasksAction | setTasksAction | fetchTasksErrorAction;
+interface fetchTaskById {
+  type: typeof FETCH_TASK;
+  payload: string;
+}
+
+interface fetchTaskByIdErrorAction {
+  type: typeof FETCH_TASK_ERROR;
+  payload: string;
+}
+
+interface setCurrentTaskAction {
+  type: typeof SET_TASK;
+  payload: ITask;
+}
+
+export type TasksActionTypes =
+  | fetchTasksAction
+  | setTasksAction
+  | fetchTasksErrorAction
+  | fetchTaskById
+  | fetchTaskByIdErrorAction
+  | setCurrentTaskAction

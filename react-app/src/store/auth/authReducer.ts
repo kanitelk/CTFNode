@@ -9,11 +9,13 @@ import {
 const initialState: AuthState = {
   user: check_auth_token(),
   isAuth: Boolean(check_auth_token()),
+  token: localStorage.getItem('token') || null
 };
 
 export interface AuthState {
   isAuth: boolean;
-  user: UserAuthData | null;
+  user: UserAuthData | null,
+  token: string | null
 }
 
 const authReducer = (
@@ -27,6 +29,7 @@ const authReducer = (
         ...state,
         isAuth: decoded_user ? true : false,
         user: decoded_user,
+        token: action.payload
       };
     case LOGOUT_USER: {
       clear_token();
@@ -34,6 +37,7 @@ const authReducer = (
         ...state,
         isAuth: false,
         user: null,
+        token: null
       };
     }
     default:

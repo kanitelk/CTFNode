@@ -1,15 +1,14 @@
 import "./App.scss";
 
-import React from "react";
+import React, { Suspense } from "react";
 // @ts-ignore
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { HomePage } from "../../pages/Home/HomePage";
 import { Header } from "../Layout/Header/Header";
-import { LoginPage } from "../../pages/Login/LoginPage";
-import { RegisterPage } from "../../pages/Login/RegisterPage";
 import { Sidebar } from "../Layout/Sidebar/Sidebar";
 import {
+  CircularProgress,
   createStyles,
   CssBaseline,
   makeStyles,
@@ -19,7 +18,10 @@ import { RootState } from "../../store/rootReducer";
 import { useSelector } from "react-redux";
 import { ProtectedRoute } from "../../utils/ProtectedRoute";
 import { UserRoleEnum } from "../../store/auth/types";
-import TasksPage from "../../pages/Task/TasksPage";
+
+const LoginPage = React.lazy(() => import("../../pages/Login/LoginPage"));
+const RegisterPage = React.lazy(() => import("../../pages/Login/RegisterPage"));
+const TasksPage = React.lazy(() => import("../../pages/Task/TasksPage"));
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,17 +43,19 @@ function App() {
       <Router>
         <Header />
         {auth.isAuth && <Sidebar />}
-        <main className={classes.content}>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/login" exact component={LoginPage} />
-          <Route path="/register" exact component={RegisterPage} />
-          <ProtectedRoute
-            path="/tasks"
-            role={UserRoleEnum.user}
-            exact
-            component={TasksPage}
-          />
-        </main>
+        <Suspense fallback={<CircularProgress />}>
+          <main className={classes.content}>
+            <Route path="/" exact component={HomePage} />
+            <Route path="/login" exact component={LoginPage} />
+            <Route path="/register" exact component={RegisterPage} />
+            <ProtectedRoute
+              path="/tasks"
+              role={UserRoleEnum.user}
+              exact
+              component={TasksPage}
+            />
+          </main>
+        </Suspense>
       </Router>
     </div>
   );
