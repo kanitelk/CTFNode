@@ -6,8 +6,6 @@ class TaskService {
   private _http: AxiosInstance;
   constructor(http: AxiosInstance) {
     this._http = http;
-    console.log(http.interceptors);
-    
   }
 
   getTaskById = async (id: string): Promise<ITask> => {
