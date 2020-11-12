@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 
 router.get("/all", isAuthMiddleware(UserRole.admin), async (req, res) => {
   try {
-    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1, });
+    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1 });
     res.send(tasks);
   } catch (error) {
     throw error;
@@ -75,10 +75,10 @@ router.get("/:id/flags", isAuthMiddleware(UserRole.user), async (req, res) => {
 router.get("/:id/solves", async (req, res) => {
   try {
     const { id } = req.params;
-    let solves = await Flag.find({ task: id, isRight: true }, {_id: 1, user: 1, createdAt: 1}).populate("user", [
-      "login",
-      "score",
-    ]);
+    let solves = await Flag.find(
+      { task: id, isRight: true },
+      { _id: 1, user: 1, createdAt: 1 }
+    ).populate("user", ["login", "score"]);
     res.send(solves);
   } catch (error) {
     console.log(error);
@@ -87,9 +87,10 @@ router.get("/:id/solves", async (req, res) => {
 
 // Add new task
 router.post("/", isAuthMiddleware(UserRole.admin), async (req, res) => {
-  const { data } = req.body;
-  console.log(data);
-  
+  const {
+    data
+  } = req.body;
+
   try {
     const task = new Task(data);
     await task.save();

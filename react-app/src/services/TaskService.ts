@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { TaskFormInput } from "../components/Tasks/TaskForm";
 import { ITask } from "../store/tasks/types";
 import { http } from "./http";
 
@@ -20,8 +21,12 @@ class TaskService {
     return (await this._http.get(`/tasks/all`)).data;
   };
 
-  editTask = async (_id: string, data: any): Promise<ITask> => {
-    return (await this._http.put(`/tasks/${_id}`, data)).data;
+  addTask = async (task: TaskFormInput): Promise<ITask> => {
+    return (await this._http.post(`/tasks`, { data: task })).data;
+  };
+
+  editTask = async (_id: string, data: TaskFormInput): Promise<ITask> => {
+    return (await this._http.put(`/tasks/${_id}`, { data })).data;
   };
 
   sendFlag = async (taskId: string, flag: string): Promise<any> => {

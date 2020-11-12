@@ -1,18 +1,32 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
-import * as React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
+import TaskService from "../../services/TaskService";
 import TaskForm, { TaskFormInput } from "./TaskForm";
 
 const AddTask = () => {
-  const onAdd = (task: TaskFormInput) => {
-    console.log(task);
+  const [loadinng, setLoading] = useState(false);
+  const router = useHistory();
+
+  const onAdd = async (task: TaskFormInput) => {
+    setLoading(true);
+    try {
+      let res = await TaskService.addTask(task);
+      setLoading(false);
+      router.push(`/tasks/${res._id}`);
+    } catch (error) {
+      console.log(error.responce?.data?.message);
+      setLoading(false);
+    }
   };
 
   return (
-    <Grid item style={{maxWidth: '400px'}}>
+    <Grid item style={{ maxWidth: "400px" }}>
       <Typography align="center" variant="h5">
         New task
       </Typography>
-      <Paper style={{marginTop: '1rem'}}>
+      <Paper style={{ marginTop: "1rem" }}>
         <TaskForm onSubmit={onAdd} />
       </Paper>
     </Grid>

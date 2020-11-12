@@ -42,7 +42,10 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
 
   const { register, formState, handleSubmit } = useForm<TaskFormInput>({
     mode: "onChange",
-    defaultValues: task || {},
+    defaultValues: task || {
+      visible: true,
+      score: 1
+    },
   });
 
   return (
@@ -93,8 +96,9 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
           id="score"
         />
         <FormControlLabel
-          control={<Switch inputRef={register} name="visible" />}
-          label="visible"
+          control={<Switch checked={task?.visible || true} inputRef={register} name="visible" />}
+          name="visible"
+          label="Visible"
         />
         <Button
           type="submit"

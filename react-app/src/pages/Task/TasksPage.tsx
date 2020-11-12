@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 import AddTask from "../../components/Tasks/AddTask";
+import EditTask from "../../components/Tasks/EditTask";
 import { TaskListItem } from "../../components/Tasks/TaskListItem";
 import { Task } from "../../components/Tasks/TaskView";
 import { UserRoleEnum } from "../../store/auth/types";
@@ -80,7 +81,7 @@ const TasksPage = () => {
           <AddTask />
         </Route>
         <Route path={`${match.path}/:id/edit`}>
-          <Typography variant="h5">Edit task</Typography>
+          <EditTask />
         </Route>
         <Route path={`${match.path}/:id`}>
           <Task />
