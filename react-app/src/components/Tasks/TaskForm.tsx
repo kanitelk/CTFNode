@@ -96,7 +96,7 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
           id="score"
         />
         <FormControlLabel
-          control={<Switch checked={task?.visible || true} inputRef={register} name="visible" />}
+          control={<Switch defaultChecked={task?.visible || true} inputRef={register} name="visible" />}
           name="visible"
           label="Visible"
         />

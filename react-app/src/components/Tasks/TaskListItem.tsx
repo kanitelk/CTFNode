@@ -1,12 +1,11 @@
+import { Badge, Chip } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Height } from "@material-ui/icons";
-import AddIcon from "@material-ui/icons/Add";
+import { VisibilityOff } from "@material-ui/icons";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -18,25 +17,25 @@ import { ITask } from "../../store/tasks/types";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    position: 'relative'
+    maxWidth: 275
   },
   title: {
-    marginRight: '25px'
+    marginRight: "25px",
   },
   score: {
     position: "absolute",
-    right: '10px',
-    top: '17px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '30px',
-    height: '30px',
-    background: '#f1f1f1',
-    borderRadius: '50%',
-    cursor: 'default',
-    overflow: 'hidden',
-    fontWeight: 600
+    right: "10px",
+    top: "17px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "30px",
+    height: "30px",
+    background: "#f1f1f1",
+    borderRadius: "50%",
+    cursor: "default",
+    overflow: "hidden",
+    fontWeight: 600,
   },
 });
 
@@ -51,40 +50,47 @@ const TaskListItem = ({ task }: Props) => {
   );
 
   return (
-    <Card className={classes.root} variant="outlined">
-      <div className={classes.score}>
-        <p>{task.score}</p>
-      </div>
-      <CardContent>
-        <Typography className={classes.title} noWrap variant="h5" component="h2">
-          {task.title}
-        </Typography>
-        <Typography noWrap variant="body2" component="p">
-          {task.content}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          component={Link}
-          to={`/tasks/${task._id}`}
-          variant="contained"
-          color="primary"
-          size="small"
-        >
-          OPEN
-        </Button>
-        {isAdmin && (
+    <Badge color="error" max={999} badgeContent={task.score}>
+      <Card className={classes.root}  variant="outlined">
+        <CardContent>
+          <Typography
+            className={classes.title}
+            noWrap
+            variant="h5"
+            component="h2"
+          >
+            {task.title}{" "}
+            {isAdmin && !task.visible && (
+              <VisibilityOff style={{ marginLeft: "5px", marginTop: "5px" }} />
+            )}
+          </Typography>
+          <Typography noWrap variant="body2" component="p">
+            {task.content}
+          </Typography>
+        </CardContent>
+        <CardActions>
           <Button
             component={Link}
-            to={`/tasks/${task._id}/edit`}
+            to={`/tasks/${task._id}`}
             variant="contained"
+            color="primary"
             size="small"
           >
-            EDIT
+            OPEN
           </Button>
-        )}
-      </CardActions>
-    </Card>
+          {isAdmin && (
+            <Button
+              component={Link}
+              to={`/tasks/${task._id}/edit`}
+              variant="contained"
+              size="small"
+            >
+              EDIT
+            </Button>
+          )}
+        </CardActions>
+      </Card>
+    </Badge>
   );
 };
 

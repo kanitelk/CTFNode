@@ -37,7 +37,10 @@ router.get("/", async (req, res) => {
 
 router.get("/all", isAuthMiddleware(UserRole.admin), async (req, res) => {
   try {
-    let tasks = await Task.find({}, { _id: 1, title: 1, content: 1 });
+    let tasks = await Task.find(
+      {},
+      { _id: 1, title: 1, content: 1, visible: 1, score: 1 }
+    );
     res.send(tasks);
   } catch (error) {
     throw error;
