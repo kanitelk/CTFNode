@@ -1,18 +1,19 @@
 import "./App.scss";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 // @ts-ignore
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { HomePage } from "../../pages/Home/HomePage";
 import { Header } from "../Layout/Header/Header";
-import { Sidebar } from "../Layout/Sidebar/Sidebar";
+import Sidebar from "../Layout/Sidebar/Sidebar";
 import {
   CircularProgress,
   createStyles,
   CssBaseline,
   makeStyles,
   Theme,
+  withWidth,
 } from "@material-ui/core";
 import { RootState } from "../../store/rootReducer";
 import { useSelector } from "react-redux";
@@ -33,16 +34,34 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function App() {
+function App({ width }: { width: string }) {
   const classes = useStyles();
   const auth = useSelector((state: RootState) => state.auth);
+
+  const [sidebar, setSidebar] = useState(auth.isAuth);
+
+  const toggle = () => {
+    if (auth.isAuth) {
+      setSidebar(!sidebar);
+    }
+  };
+
+  useEffect(() => {
+    console.log(width);
+
+    if (auth.isAuth && width === "xs") {
+      setSidebar(false);
+    } else {
+      setSidebar(true);
+    }
+  }, [width, auth.isAuth]);
 
   return (
     <div className="App" style={{ height: "100%", display: "flex" }}>
       <CssBaseline />
       <Router>
-        <Header />
-        {auth.isAuth && <Sidebar />}
+        <Header toggle={toggle} />
+        {sidebar && <Sidebar />}
         <Suspense fallback={<CircularProgress />}>
           <main className={classes.content}>
             <Route path="/" exact component={HomePage} />
@@ -61,4 +80,4 @@ function App() {
   );
 }
 
-export default App;
+export default withWidth()(App);

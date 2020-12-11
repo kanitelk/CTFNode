@@ -16,8 +16,7 @@ import { ITask } from "../../store/tasks/types";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
-    maxWidth: 275
+    minWidth: 300,
   },
   title: {
     marginRight: "25px",
@@ -52,7 +51,7 @@ const TaskListItem = ({ task }: Props) => {
   return (
     <Badge color="error" max={999} badgeContent={task.score}>
       <Card className={classes.root}  variant="outlined">
-        <CardContent>
+        <CardContent></CardContent>
           <Typography
             className={classes.title}
             noWrap

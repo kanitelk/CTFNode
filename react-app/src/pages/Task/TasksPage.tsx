@@ -60,7 +60,7 @@ const TasksPage = () => {
         spacing={3}
         direction="row"
         justify="center"
-        alignItems="stretch"
+        alignItems="center"
       >
         {tasks.map((task) => (
           <Grid className={classes.taskCard} item xs={12} sm={6} key={task._id}>

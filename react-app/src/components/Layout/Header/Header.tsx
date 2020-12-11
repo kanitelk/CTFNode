@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: "none",
       color: "#fff",
       fontWeight: 600,
-      fontSize: '1.25rem',
+      fontSize: "1.25rem",
       flexGrow: 1,
     },
     menu: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Header: React.FC = () => {
+const Header = ({ toggle }: { toggle: Function }) => {
   const classes = useStyles();
   const auth = useSelector((state: RootState) => state.auth);
   const dispath = useDispatch();
@@ -64,6 +64,7 @@ const Header: React.FC = () => {
           className={classes.menuButton}
           color="inherit"
           aria-label="menu"
+          onClick={() => toggle()}
         >
           <MenuIcon />
         </IconButton>

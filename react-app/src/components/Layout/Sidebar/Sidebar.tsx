@@ -9,10 +9,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import GroupIcon from "@material-ui/icons/Group";
 import FlagIcon from "@material-ui/icons/Flag";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/rootReducer";
+import withWidth from "@material-ui/core/withWidth";
 
 const drawerWidth = 240;
 
@@ -38,51 +39,59 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Sidebar = () => {
+const Sidebar = (props: { width: string }) => {
   const classes = useStyles();
-  const auth = useSelector((state: RootState) => state.auth)
-  const [open, setOpen] = useState(auth.isAuth);
+  const auth = useSelector((state: RootState) => state.auth);
+  const [open, setOpen] = useState(() => auth.isAuth);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    if (auth.isAuth) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [auth]);
 
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <Toolbar />
-      <div className={classes.drawerContainer}>
-        <List>
-          <ListItem button component={Link} to="/tasks">
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Tasks"} />
-          </ListItem>
-          <ListItem button component={Link} to="/teams">
-            <ListItemIcon>
-              <FlagIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Teams"} />
-          </ListItem>
-          <ListItem button component={Link} to="/users">
-            <ListItemIcon>
-              <GroupIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Users"} />
-          </ListItem>
-        </List>
-        <Divider />
-      </div>
-    </Drawer>
+    <>
+      {open ? (
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <Toolbar />
+          <div className={classes.drawerContainer}>
+            <List>
+              <ListItem button component={Link} to="/tasks">
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Tasks"} />
+              </ListItem>
+              <ListItem button component={Link} to="/teams">
+                <ListItemIcon>
+                  <FlagIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Teams"} />
+              </ListItem>
+              <ListItem button component={Link} to="/users">
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Users"} />
+              </ListItem>
+            </List>
+            <Divider />
+          </div>
+        </Drawer>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
+
+export default withWidth()(Sidebar);
