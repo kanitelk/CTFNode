@@ -51,7 +51,7 @@ const TaskListItem = ({ task }: Props) => {
   return (
     <Badge color="error" max={999} badgeContent={task.score}>
       <Card className={classes.root}  variant="outlined">
-        <CardContent></CardContent>
+        <CardContent>
           <Typography
             className={classes.title}
             noWrap
