@@ -9,5 +9,5 @@ export class CreateUserDto {
   readonly login: string;
 
   @IsString()
-  readonly password: string;
+  password: string;
 }
