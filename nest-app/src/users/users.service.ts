@@ -4,7 +4,7 @@ import { User, UserDocument, UserRole } from '../schema/User.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcryptjs';
-import { AuthService } from '../auth/auth.service';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,6 +30,7 @@ export class UsersService {
     }
     const createdUser = new this.userModel({ ...user, role });
     await createdUser.save();
+    return createdUser;
     // const authData = this.authService.login(createdUser);
     // return authData;
   }
@@ -49,7 +50,16 @@ export class UsersService {
     return users;
   }
 
-  // async updateUser() {}
+  async updateUser(id: string, user: UpdateUserDto) {
+    if (user.password) {
+      const salt = bcrypt.genSaltSync(6);
+      user.password = bcrypt.hashSync(user.password, salt);
+    }
+    const updated = await this.userModel.findOneAndUpdate({ _id: id }, user, {
+      new: true,
+    });
+    return updated;
+  }
 
   async deleteUser(id: string) {
     const deletedUser = this.userModel.deleteOne({ _id: id });
