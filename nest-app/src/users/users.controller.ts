@@ -21,10 +21,23 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'Get all users' })
+  @Get('')
+  findAll() {
+    return this.usersService.findAll();
+  }
+
   @ApiOperation({ summary: 'Register new user' })
   @Post('')
   createUser(@Body() user: CreateUserDto) {
     return this.usersService.createUser(user);
+  }
+
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({ status: 200, type: User })
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOneById(id);
   }
 
   @ApiOperation({ summary: 'Get profile' })
@@ -36,18 +49,23 @@ export class UsersController {
     return req.user;
   }
 
-  @ApiOperation({ summary: 'Get user by ID' })
-  @ApiResponse({ status: 200, type: User })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOneById(id);
-  }
-
   @ApiOperation({ summary: 'Update user' })
   @UseGuards(JwtAuthGuard)
   @Role(UserRole.USER, UserRole.ADMIN)
   @Put(`:id`)
-  updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
-    return this.usersService.updateUser(id, user);
+  updateUser(
+    @Param('id') id: string,
+    @Body() data: UpdateUserDto,
+    @Request() req,
+  ) {
+    return this.usersService.updateUser(id, data, req.user);
+  }
+
+  @ApiOperation({ summary: 'Delete user' })
+  @UseGuards(JwtAuthGuard)
+  @Role(UserRole.ADMIN)
+  @Put(`:id`)
+  deleteUser(@Param('id') id: string) {
+    return this.usersService.deleteUser(id);
   }
 }

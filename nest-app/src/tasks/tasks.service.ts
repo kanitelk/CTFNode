@@ -5,10 +5,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Task, TaskDocument } from '../schema/Task.schema';
 import { Model } from 'mongoose';
 import { JwtPayloadUser } from '../auth/auth.service';
+import { UserRole } from '../schema/User.schema';
 
 @Injectable()
 export class TasksService {
   constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
+
+  public taskProjectionUser: { [key in keyof Task]?: number } = {
+    flag: 0,
+  };
 
   async create(createTaskDto: CreateTaskDto, user: JwtPayloadUser) {
     const createdTask = new this.taskModel({
@@ -20,11 +25,14 @@ export class TasksService {
   }
 
   findAll() {
-    return this.taskModel.find({});
+    return this.taskModel.find({}, this.taskProjectionUser);
   }
 
-  findOne(_id: string) {
-    return this.taskModel.findOne({ _id });
+  findOne(_id: string, role: UserRole) {
+    return this.taskModel.findOne(
+      { _id },
+      role !== UserRole.ADMIN && this.taskProjectionUser,
+    );
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {

@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserRole } from '../schema/User.schema';
 import { Role } from '../auth/roles.decorator';
 import { JwtPayloadUser } from '../auth/auth.service';
+import { JoinTeamDto } from './dto/join-team.dto';
 
 @ApiTags('Teams')
 @Controller('teams')
@@ -37,16 +38,18 @@ export class TeamsController {
   @UseGuards(JwtAuthGuard)
   @Role(UserRole.USER)
   @Post(':id/join')
-  join(@Req() req, @Body() createTeamDto: CreateTeamDto) {
-    // join team
+  join(@Req() req, @Param('id') id: string, @Body() data: JoinTeamDto) {
+    const { _id } = req.user as JwtPayloadUser;
+    return this.teamsService.join(id, _id, data.password);
   }
 
   @ApiOperation({ summary: 'Leave team' })
   @UseGuards(JwtAuthGuard)
   @Role(UserRole.USER)
   @Post(':id/leave')
-  leave(@Req() req, @Body() createTeamDto: CreateTeamDto) {
-    // leave team
+  leave(@Req() req, @Param('id') id: string) {
+    const { _id } = req.user as JwtPayloadUser;
+    return this.teamsService.leave(id, _id);
   }
 
   @Get()

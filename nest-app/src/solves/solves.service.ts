@@ -6,7 +6,7 @@ import { Solve, SolveDocument } from 'src/schema/Solve.schema';
 import { Model } from 'mongoose';
 import { UsersService } from '../users/users.service';
 import { TasksService } from '../tasks/tasks.service';
-import { User, UserDocument } from '../schema/User.schema';
+import { User, UserDocument, UserRole } from '../schema/User.schema';
 
 @Injectable()
 export class SolvesService {
@@ -18,7 +18,7 @@ export class SolvesService {
   ) {}
 
   async create(solve: CreateSolveDto, userId: string) {
-    const task = await this.tasksService.findOne(solve.task);
+    const task = await this.tasksService.findOne(solve.task, UserRole.ADMIN);
     const user = await this.usersService.findOneById(userId);
 
     if (!task) {

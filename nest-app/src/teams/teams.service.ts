@@ -15,6 +15,10 @@ export class TeamsService {
     private usersService: UsersService,
   ) {}
 
+  private teamProjection: { [key in keyof Team]?: number } = {
+    password: 0,
+  };
+
   async create(createTeamDto: CreateTeamDto, userId: string, role: UserRole) {
     if (role === UserRole.USER) {
       const user = await this.usersService.findOneById(userId);
@@ -26,7 +30,11 @@ export class TeamsService {
       }
     }
 
-    const createdTeam = new this.teamModel({ ...createTeamDto, owner: userId });
+    const createdTeam = new this.teamModel({
+      ...createTeamDto,
+      owner: userId,
+      members: [userId],
+    });
     await createdTeam.save();
 
     // Assign user to created team
@@ -40,12 +48,12 @@ export class TeamsService {
     return createdTeam;
   }
 
-  findAll() {
-    return this.teamModel.find({});
+  findOne(_id: string) {
+    return this.teamModel.findOne({ _id }, this.teamProjection);
   }
 
-  findOne(_id: string) {
-    return this.teamModel.findOne({ _id });
+  findAll() {
+    return this.teamModel.find({}, this.teamProjection);
   }
 
   async update(
@@ -79,6 +87,57 @@ export class TeamsService {
 
     await this.teamModel.deleteOne({ _id: id });
     await this.userModel.updateMany({ team: id }, { team: null });
+    return { success: 'ok' };
+  }
+
+  // Join to team by user
+  async join(teamId: string, userId: string, password: string) {
+    const team = await this.teamModel.findOne({ _id: teamId });
+    const user = await this.userModel.findOne({ _id: userId });
+
+    if (!team) {
+      throw new HttpException('Team not found', HttpStatus.BAD_REQUEST);
+    }
+
+    if (password === team.password) {
+      if (user.team) {
+        // delete user from current team's member list
+        await this.teamModel.updateOne(
+          { _id: user.team },
+          {
+            $pull: {
+              members: {
+                userId,
+              },
+            },
+          },
+        );
+      }
+      await this.teamModel.updateOne(
+        { _id: teamId },
+        { $push: { members: userId } },
+      );
+      await this.userModel.updateOne({ _id: userId }, { team: teamId });
+      return { success: 'ok' };
+    } else {
+      throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  // Leave team by user
+  async leave(teamId: string, userId: string) {
+    const team = await this.teamModel.findOne({ _id: teamId });
+    const user = await this.userModel.findOne({ _id: userId });
+
+    if (!team) {
+      throw new HttpException('Team not found', HttpStatus.BAD_REQUEST);
+    }
+
+    await this.teamModel.updateOne(
+      { _id: teamId },
+      { $pull: { members: userId } },
+    );
+    await this.userModel.updateOne({ _id: userId }, { team: null });
     return { success: 'ok' };
   }
 }

@@ -16,6 +16,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Role } from '../auth/roles.decorator';
 import { UserRole } from '../schema/User.schema';
+import { JwtPayloadUser } from '../auth/auth.service';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -31,15 +32,14 @@ export class TasksController {
   }
 
   @ApiOperation({ summary: 'Get all tasks' })
-  @Get()
   findAll() {
     return this.tasksService.findAll();
   }
 
   @ApiOperation({ summary: 'Get task by ID' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(id);
+  findOne(@Request() req, @Param('id') id: string) {
+    return this.tasksService.findOne(id, (req.user as JwtPayloadUser).role);
   }
 
   @ApiOperation({ summary: 'Update task by ID' })

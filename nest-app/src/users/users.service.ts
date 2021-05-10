@@ -1,16 +1,28 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument, UserRole } from '../schema/User.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { JwtPayloadUser } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>, // private authService: AuthService,
   ) {}
+
+  private userProjection: { [key in keyof User]?: number } = {
+    login: 1,
+    team: 1,
+    score: 1,
+  };
 
   async createUser(user: CreateUserDto) {
     const exists = await this.userModel.findOne({ login: user.login });
@@ -36,33 +48,32 @@ export class UsersService {
   }
 
   async findOneById(id: string) {
-    const user = await this.userModel.findById(id);
-    return user;
+    return this.userModel.findById(id, this.userProjection);
   }
 
   async findOneByLogin(login: string) {
-    const user = await this.userModel.findOne({ login });
-    return user;
+    return this.userModel.findOne({ login }, this.userProjection);
   }
 
   async findAll() {
-    const users = await this.userModel.find();
-    return users;
+    return this.userModel.find({}, this.userProjection);
   }
 
-  async updateUser(id: string, user: UpdateUserDto) {
-    if (user.password) {
-      const salt = bcrypt.genSaltSync(6);
-      user.password = bcrypt.hashSync(user.password, salt);
+  async updateUser(id: string, data: UpdateUserDto, user: JwtPayloadUser) {
+    if (user.role !== UserRole.ADMIN && id !== user._id) {
+      throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
-    const updated = await this.userModel.findOneAndUpdate({ _id: id }, user, {
+    if (data.password) {
+      const salt = bcrypt.genSaltSync(6);
+      data.password = bcrypt.hashSync(data.password, salt);
+    }
+    return this.userModel.findOneAndUpdate({ _id: id }, user, {
       new: true,
+      projection: this.userProjection,
     });
-    return updated;
   }
 
   async deleteUser(id: string) {
-    const deletedUser = this.userModel.deleteOne({ _id: id });
-    return deletedUser;
+    return this.userModel.deleteOne({ _id: id });
   }
 }
