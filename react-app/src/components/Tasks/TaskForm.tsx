@@ -24,7 +24,7 @@ export type TaskFormInput = {
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%", // Fix IE 11 issue.
-    paddingTop: theme.spacing(1)
+    paddingTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -40,66 +40,97 @@ type Props = {
 const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
   const classes = useStyles();
 
-  const { register, formState, handleSubmit } = useForm<TaskFormInput>({
+  const { control, formState, handleSubmit } = useForm<TaskFormInput>({
     mode: "onChange",
     defaultValues: task || {
       visible: true,
-      score: 1
+      score: 1,
     },
   });
 
   return (
     <Container>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          inputRef={register({ required: true, minLength: 3 })}
-          fullWidth
-          id="title"
-          label="Title"
+        <Controller
           name="title"
-          autoFocus
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              autoFocus
+            />
+          )}
         />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          multiline
-          rows={3}
-          inputRef={register({ required: true, minLength: 4 })}
-          fullWidth
+        <Controller
           name="content"
-          label="Content"
-          id="content"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              autoFocus
+            />
+          )}
         />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          inputRef={register({ required: true, minLength: 1 })}
-          fullWidth
+        <Controller
           name="flag"
-          label="Flag"
-          id="flag"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              autoFocus
+            />
+          )}
         />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          inputRef={register({ required: true, minLength: 1 })}
-          fullWidth
-          type="number"
+        <Controller
           name="score"
-          label="Score"
-          id="score"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              variant="outlined"
+              margin="normal"
+              type="number"
+              required
+              fullWidth
+              autoFocus
+            />
+          )}
         />
-        <FormControlLabel
-          control={<Switch defaultChecked={task?.visible || true} inputRef={register} name="visible" />}
+        <Controller
           name="visible"
-          label="Visible"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <FormControlLabel
+              control={
+                <Switch
+                  {...field}
+                  // defaultChecked={task?.visible || true}
+                  name="visible"
+                />
+              }
+              name="visible"
+              label="Visible"
+            />
+          )}
         />
+
         <Button
           type="submit"
           fullWidth

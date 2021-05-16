@@ -15,10 +15,10 @@ import {
   Theme,
   withWidth,
 } from "@material-ui/core";
-import { RootState } from "../../store/rootReducer";
-import { useSelector } from "react-redux";
 import { ProtectedRoute } from "../../utils/ProtectedRoute";
-import { UserRoleEnum } from "../../store/auth/types";
+import { useGate, useStore } from "effector-react";
+import { AppGate, isAuth$ } from "../../models/auth";
+import { UserRole } from "../../types";
 
 const LoginPage = React.lazy(() => import("../../pages/Login/LoginPage"));
 const RegisterPage = React.lazy(() => import("../../pages/Login/RegisterPage"));
@@ -36,12 +36,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App({ width }: { width: string }) {
   const classes = useStyles();
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useStore(isAuth$);
 
-  const [sidebar, setSidebar] = useState(auth.isAuth);
+  useGate(AppGate);
+
+  const [sidebar, setSidebar] = useState(auth);
 
   const toggle = () => {
-    if (auth.isAuth) {
+    if (auth) {
       setSidebar(!sidebar);
     }
   };
@@ -49,12 +51,12 @@ function App({ width }: { width: string }) {
   useEffect(() => {
     console.log(width);
 
-    if (auth.isAuth && width === "xs") {
+    if (auth && width === "xs") {
       setSidebar(false);
     } else {
       setSidebar(true);
     }
-  }, [width, auth.isAuth]);
+  }, [width, auth]);
 
   return (
     <div className="App" style={{ height: "100%", display: "flex" }}>
@@ -69,7 +71,7 @@ function App({ width }: { width: string }) {
             <Route path="/register" exact component={RegisterPage} />
             <ProtectedRoute
               path="/tasks"
-              role={UserRoleEnum.user}
+              role={UserRole.USER}
               exact
               component={TasksPage}
             />

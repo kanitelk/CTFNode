@@ -10,12 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
-import AuthService from "../../services/AuthService";
-import { loginUserAction } from "../../store/auth/authActions";
+import { useStore } from "effector-react";
+import { authStore$, doRegister } from "../../models/auth";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,26 +44,16 @@ export type RegisterFormInput = {
 
 function RegisterForm() {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
   const router = useHistory();
-  const [loading, setLoading] = useState(false);
-  const { register, formState, handleSubmit } = useForm<RegisterFormInput>({
+  const auth = useStore(authStore$);
+
+  const { control, formState, handleSubmit } = useForm<RegisterFormInput>({
     mode: "onChange",
   });
 
   const onSubmit = async (data: RegisterFormInput) => {
-    setLoading(true);
-    try {
-      let res = await AuthService.register_new_user(data);
-      dispatch(loginUserAction(res.token));
-      localStorage.setItem("token", res.token);
-      setLoading(false);
-      router.push("/");
-    } catch (error) {
-      console.log(error.response?.data?.message);
-    } finally {
-      setLoading(false);
-    }
+    doRegister(data);
   };
 
   return (
@@ -78,41 +67,51 @@ function RegisterForm() {
           Register
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            inputRef={register({ required: true, minLength: 3 })}
-            fullWidth
-            id="login"
-            label="Login"
+          <Controller
             name="login"
-            autoComplete="login"
-            autoFocus
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            inputRef={register({ required: true, minLength: 3, maxLength: 25 })}
-            fullWidth
+          <Controller
             name="email"
-            label="E-Mail"
-            type="email"
-            id="email"
-            autoComplete="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            inputRef={register({ required: true, minLength: 4 })}
+          <Controller
             name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+                type="password"
+              />
+            )}
           />
           <Button
             type="submit"
@@ -120,9 +119,9 @@ function RegisterForm() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={!formState.isValid || loading}
+            disabled={!formState.isValid}
           >
-            {loading ? <CircularProgress size={20} /> : `Sign Up`}
+            {false ? <CircularProgress size={20} /> : `Sign Up`}
           </Button>
           <Grid
             container

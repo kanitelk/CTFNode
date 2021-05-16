@@ -2,8 +2,8 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import TaskService from "../../services/TaskService";
 import TaskForm, { TaskFormInput } from "./TaskForm";
+import { addTask } from "../../api/tasks";
 
 const AddTask = () => {
   const [loadinng, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const AddTask = () => {
   const onAdd = async (task: TaskFormInput) => {
     setLoading(true);
     try {
-      let res = await TaskService.addTask(task);
+      let res = await addTask(task);
       setLoading(false);
       router.push(`/tasks/${res._id}`);
     } catch (error) {

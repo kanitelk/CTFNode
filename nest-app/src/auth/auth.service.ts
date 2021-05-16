@@ -21,7 +21,7 @@ export class AuthService {
     login: string,
     password: string,
   ): Promise<JwtPayloadUser | null> {
-    const user = await this.usersService.findOneByLogin(login);
+    const user = await this.usersService.findOneByLogin(login, false);
     if (!user) return null;
     const passIsRight = await bcrypt.compare(password, user.password);
     if (passIsRight) {

@@ -14,9 +14,8 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
-import { RootState } from "../../../store/rootReducer";
-import { logoutUserAction } from "../../../store/auth/authActions";
+import { useStore } from "effector-react";
+import { authStore$, doLogout } from "../../../models/auth";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,12 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header = ({ toggle }: { toggle: Function }) => {
   const classes = useStyles();
-  const auth = useSelector((state: RootState) => state.auth);
-  const dispath = useDispatch();
   const router = useHistory();
 
+  const auth = useStore(authStore$);
+
   const logoutHandler = () => {
-    dispath(logoutUserAction());
+    doLogout();
     router.push("/");
   };
 

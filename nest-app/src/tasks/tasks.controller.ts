@@ -32,6 +32,7 @@ export class TasksController {
   }
 
   @ApiOperation({ summary: 'Get all tasks' })
+  @Get('')
   findAll() {
     return this.tasksService.findAll();
   }

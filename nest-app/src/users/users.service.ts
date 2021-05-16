@@ -51,8 +51,11 @@ export class UsersService {
     return this.userModel.findById(id, this.userProjection);
   }
 
-  async findOneByLogin(login: string) {
-    return this.userModel.findOne({ login }, this.userProjection);
+  async findOneByLogin(login: string, projection = true) {
+    return this.userModel.findOne(
+      { login },
+      projection ? this.userProjection : null,
+    );
   }
 
   async findAll() {

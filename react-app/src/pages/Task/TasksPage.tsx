@@ -1,16 +1,15 @@
 import { Grid, IconButton, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 import AddTask from "../../components/Tasks/AddTask";
 import EditTask from "../../components/Tasks/EditTask";
 import { TaskListItem } from "../../components/Tasks/TaskListItem";
 import { Task } from "../../components/Tasks/TaskView";
-import { UserRoleEnum } from "../../store/auth/types";
-import { RootState } from "../../store/rootReducer";
-import { FETCH_TASKS } from "../../store/tasks/types";
+import { useStore } from "effector-react";
+import { authStore$ } from "../../models/auth";
+import { TaskListGate, tasksListState$ } from "../../models/tasks/list";
 
 const useStyles = makeStyles({
   root: {},
@@ -28,23 +27,17 @@ const useStyles = makeStyles({
 
 const TasksPage = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const tasks = useSelector((state: RootState) => state.tasks.tasks);
-  const isAdmin = useSelector(
-    (state: RootState) => state.auth.user?.role === UserRoleEnum.admin
-  );
+  const auth = useStore(authStore$);
+  const state = useStore(tasksListState$);
+
   const router = useHistory();
   let match = useRouteMatch();
-
-  useEffect(() => {
-    dispatch({ type: FETCH_TASKS });
-  }, [dispatch]);
 
   const taskList = (
     <>
       <div className={classes.heading}>
         <Typography variant="h5">Tasks</Typography>
-        {isAdmin && (
+        {auth.isAdmin && (
           <IconButton
             onClick={() => router.push("/tasks/new")}
             color="primary"
@@ -62,7 +55,7 @@ const TasksPage = () => {
         justify="center"
         alignItems="center"
       >
-        {tasks.map((task) => (
+        {state.data?.map((task) => (
           <Grid className={classes.taskCard} item xs={12} sm={6} key={task._id}>
             <TaskListItem task={task} />
           </Grid>
@@ -75,6 +68,7 @@ const TasksPage = () => {
     <Grid container direction="column" justify="center" alignItems="center">
       <Switch>
         <Route exact path={`${match.path}`}>
+          <TaskListGate />
           {taskList}
         </Route>
         <Route exact path={`${match.path}/new`}>

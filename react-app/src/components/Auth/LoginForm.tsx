@@ -10,14 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { connect, ConnectedProps, useDispatch } from "react-redux";
+import { useStore } from "effector-react";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
-
-import AuthService from "../../services/AuthService";
-import { loginUserAction } from "../../store/auth/authActions";
-import { RootState } from "../../store/rootReducer";
+import { authStore$, doLogin } from "../../models/auth";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,35 +37,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export type LoginFormInput = {
-  login: string;
+  username: string;
   password: string;
 };
 
-const mapState = (state: RootState) => ({
-  auth: state.auth,
-});
-
-function LoginForm(props: PropsFromRedux) {
+function LoginForm() {
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+
+  const auth = useStore(authStore$);
+
   const router = useHistory();
-  const { register, formState, handleSubmit } = useForm<LoginFormInput>({
+  const { control, formState, handleSubmit } = useForm<LoginFormInput>({
     mode: "onChange",
   });
 
   const onSubmit = async (data: LoginFormInput) => {
-    setLoading(true);
-    try {
-      let res = await AuthService.login_user(data);
-      dispatch(loginUserAction(res.token));
-      localStorage.setItem("token", res.token);
-      setLoading(false);
-      router.push("/");
-    } catch (error) {
-      console.log(error.response?.data?.message);
-      setLoading(false);
-    }
+    doLogin(data);
+    // router.push("/");
   };
 
   return (
@@ -82,29 +67,36 @@ function LoginForm(props: PropsFromRedux) {
           Sign in
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            inputRef={register({ required: true, minLength: 3 })}
-            fullWidth
-            id="login"
-            label="Login"
-            name="login"
-            autoComplete="login"
-            autoFocus
+          <Controller
+            name="username"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            inputRef={register({ required: true, minLength: 4 })}
-            fullWidth
+          <Controller
             name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                type="password"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+              />
+            )}
           />
           <Button
             type="submit"
@@ -112,9 +104,10 @@ function LoginForm(props: PropsFromRedux) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={!formState.isValid || loading}
+            // @ts-ignore
+            disabled={!formState.isValid || auth.loginPending}
           >
-            {loading ? <CircularProgress size={20} /> : `Sign In`}
+            {auth.loginPending ? <CircularProgress size={20} /> : `Sign In`}
           </Button>
           <Grid
             container
@@ -142,7 +135,4 @@ function LoginForm(props: PropsFromRedux) {
   );
 }
 
-const connector = connect(mapState, null);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(LoginForm);
+export default LoginForm;

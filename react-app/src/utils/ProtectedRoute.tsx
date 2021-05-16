@@ -1,25 +1,21 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route, RouteProps } from "react-router";
-import { UserRoleEnum } from "../store/auth/types";
-import { RootState } from "../store/rootReducer";
+import { UserRole } from "../types";
+import { useStore } from "effector-react";
+import { sessionUser$ } from "../models/auth";
 
 const ProtectedRoute = ({
   component: Component,
   path,
   role,
-}: RouteProps & { role: UserRoleEnum }) => {
-  const auth = useSelector((state: RootState) => state.auth);
+}: RouteProps & { role: UserRole }) => {
+  const session = useStore(sessionUser$);
 
-  if (!auth.isAuth) {
+  if (!session) {
     return <Redirect to="/login" />;
   }
 
-  if (
-    role &&
-    auth.user?.role === UserRoleEnum.user &&
-    role === UserRoleEnum.admin
-  ) {
+  if (role && session.role === UserRole.USER && role === UserRole.ADMIN) {
     return <Redirect to="/login" />;
   }
 
