@@ -6,7 +6,7 @@ import TaskForm, { TaskFormInput } from "./TaskForm";
 import { addTask } from "../../api/tasks";
 
 const AddTask = () => {
-  const [loadinng, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useHistory();
 
   const onAdd = async (task: TaskFormInput) => {
@@ -27,7 +27,7 @@ const AddTask = () => {
         New task
       </Typography>
       <Paper style={{ marginTop: "1rem" }}>
-        <TaskForm onSubmit={onAdd} />
+        <TaskForm isLoading={loading} onSubmit={onAdd} />
       </Paper>
     </Grid>
   );

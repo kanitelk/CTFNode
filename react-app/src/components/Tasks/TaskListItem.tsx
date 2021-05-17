@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { VisibilityOff } from "@material-ui/icons";
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useStore } from "effector-react";
 import { authStore$ } from "../../models/auth";

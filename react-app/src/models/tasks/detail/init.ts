@@ -3,6 +3,7 @@ import {
   loadTaskFx,
   sendFlagEvent,
   sendFlagFx,
+  sendFlagResult$,
   task$,
   TaskDetailGate,
 } from "./index";
@@ -18,3 +19,16 @@ forward({
 });
 
 task$.on(loadTaskFx.doneData, (_, data) => data).reset(TaskDetailGate.close);
+
+sendFlagResult$
+  .on(sendFlagFx.doneData, (_, data) => ({
+    correct: data.correct,
+    score: data.score,
+    error: null,
+  }))
+  .on(sendFlagFx.failData, (_, data) => ({
+    correct: false,
+    score: 0,
+    error: data.message,
+  }))
+  .reset(TaskDetailGate.close);

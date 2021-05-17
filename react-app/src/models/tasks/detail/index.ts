@@ -10,9 +10,15 @@ export const sendFlagFx = createEffect(sendFlag);
 export const sendFlagEvent = createEvent<{ taskId: string; flag: string }>();
 
 export const task$ = createStore<any | null>(null);
+export const sendFlagResult$ = createStore<{
+  correct: boolean;
+  score: number;
+  error: null | string;
+} | null>(null);
 
 export const taskDetailState$ = combine({
   task: task$,
   loading: loadTaskFx.pending,
   sendFlagLoading: sendFlagFx.pending,
+  flagResult: sendFlagResult$,
 });

@@ -1,4 +1,10 @@
-import { Grid, IconButton, makeStyles, Typography } from "@material-ui/core";
+import {
+  CircularProgress,
+  Grid,
+  IconButton,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
@@ -31,7 +37,7 @@ const TasksPage = () => {
   const state = useStore(tasksListState$);
 
   const router = useHistory();
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   const taskList = (
     <>
@@ -55,11 +61,21 @@ const TasksPage = () => {
         justify="center"
         alignItems="center"
       >
-        {state.data?.map((task) => (
-          <Grid className={classes.taskCard} item xs={12} sm={6} key={task._id}>
-            <TaskListItem task={task} />
-          </Grid>
-        ))}
+        {state.loading ? (
+          <CircularProgress size={100} />
+        ) : (
+          state.data?.map((task) => (
+            <Grid
+              className={classes.taskCard}
+              item
+              xs={12}
+              sm={6}
+              key={task._id}
+            >
+              <TaskListItem task={task} />
+            </Grid>
+          ))
+        )}
       </Grid>
     </>
   );

@@ -35,13 +35,13 @@ export class TasksService {
     );
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
     return this.taskModel.findOneAndUpdate({ _id: id }, updateTaskDto, {
       new: true,
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.taskModel.deleteOne({ _id: id });
   }
 }

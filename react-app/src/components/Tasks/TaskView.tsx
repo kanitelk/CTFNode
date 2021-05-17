@@ -15,7 +15,11 @@ import Skeleton from "@material-ui/lab/Skeleton/Skeleton";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router";
-import { TaskDetailGate, taskDetailState$ } from "../../models/tasks/detail";
+import {
+  sendFlagEvent,
+  TaskDetailGate,
+  taskDetailState$,
+} from "../../models/tasks/detail";
 import { useStore } from "effector-react";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
       paddingTop: theme.spacing(1),
       margin: theme.spacing(1),
+      minWidth: "200px",
     },
     form: {
       display: "flex",
@@ -55,13 +60,15 @@ const Task = () => {
     mode: "onChange",
   });
 
-  const { task, loading, sendFlagLoading } = useStore(taskDetailState$);
+  const { task, loading, sendFlagLoading, flagResult } = useStore(
+    taskDetailState$
+  );
 
   const onFlagSubmit = async (data: FormFlagData) => {
-    // TODO
+    sendFlagEvent({ taskId: id, flag: data.flag });
   };
 
-  const [result, setResult] = useState({ correct: false, score: 0, error: "" });
+  // const [result, setResult] = useState({ correct: false, score: 0, error: "" });
 
   let skeleton = Array.from(Array(7)).map((_, index) => (
     <Skeleton key={index} variant="text" />
@@ -87,43 +94,44 @@ const Task = () => {
           </>
         )}
         <Divider style={{ marginBottom: "1rem" }} />
-        {result.correct && (
-          <Alert severity="success">Success! +{result.score} points</Alert>
+        {flagResult?.correct && (
+          <Alert severity="success">Success! +{flagResult.score} points</Alert>
         )}
-        {formState.isSubmitted &&
-          (result.error || sendFlagLoading) &&
-          !result.correct && (
-            <Alert severity="error">{result.error || "Wrong flag"}</Alert>
-          )}
-        <form className={classes.form} onSubmit={handleSubmit(onFlagSubmit)}>
-          <Controller
-            name="flag"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                variant="outlined"
-                placeholder="Your solve (flag)"
-                type="password"
-                margin="dense"
-              />
-            )}
-          />
-          <Button
-            variant="contained"
-            style={{ marginLeft: "7px" }}
-            color="primary"
-            disabled={!formState.isValid || sendFlagLoading}
-            onClick={handleSubmit(onFlagSubmit)}
-          >
-            {sendFlagLoading ? (
-              <CircularProgress color="secondary" size={25} />
-            ) : (
-              `Submit`
-            )}
-          </Button>
-        </form>
+        {flagResult?.correct === false && (
+          <Alert severity="error">{flagResult.error || "Wrong flag"}</Alert>
+        )}
+        {task && (
+          <form className={classes.form} onSubmit={handleSubmit(onFlagSubmit)}>
+            <Controller
+              name="flag"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  placeholder="Your solve (flag)"
+                  type="text"
+                  margin="dense"
+                />
+              )}
+            />
+            <Button
+              variant="contained"
+              style={{ marginLeft: "7px" }}
+              color="primary"
+              disabled={!formState.isValid || sendFlagLoading}
+              onClick={handleSubmit(onFlagSubmit)}
+            >
+              {sendFlagLoading ? (
+                <CircularProgress color="secondary" size={25} />
+              ) : (
+                `Submit`
+              )}
+            </Button>
+          </form>
+        )}
       </Paper>
     </Grid>
   );

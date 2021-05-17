@@ -2,15 +2,12 @@ import {
   Button,
   CircularProgress,
   Container,
-  Grid,
   makeStyles,
   Switch,
   TextField,
 } from "@material-ui/core";
 import * as React from "react";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useHistory } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 export type TaskFormInput = {
@@ -48,6 +45,8 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
     },
   });
 
+  console.log(task);
+
   return (
     <Container>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
@@ -59,6 +58,7 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
             <TextField
               {...field}
               variant="outlined"
+              placeholder="Title"
               margin="normal"
               required
               fullWidth
@@ -74,6 +74,7 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
             <TextField
               {...field}
               variant="outlined"
+              placeholder="Content"
               margin="normal"
               required
               fullWidth
@@ -90,6 +91,7 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
               {...field}
               variant="outlined"
               margin="normal"
+              placeholder="Flag"
               required
               fullWidth
               autoFocus
@@ -104,6 +106,7 @@ const TaskForm = ({ task, onSubmit, isLoading = false }: Props) => {
             <TextField
               {...field}
               variant="outlined"
+              placeholder="Score"
               margin="normal"
               type="number"
               required

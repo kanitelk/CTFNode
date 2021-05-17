@@ -15,14 +15,14 @@ export const getAllTasks = async (): Promise<ITaskListItem[]> => {
 };
 
 export const addTask = async (task: TaskFormInput): Promise<ITaskListItem> => {
-  return (await http.post(`/tasks`, { data: task })).data;
+  return (await http.post(`/tasks`, { ...task })).data;
 };
 
 export const editTask = async (
   _id: string,
   data: TaskFormInput
 ): Promise<ITaskListItem> => {
-  return (await http.put(`/tasks/${_id}`, { data })).data;
+  return (await http.patch(`/tasks/${_id}`, { ...data })).data;
 };
 
 export const sendFlag = async (params: {
@@ -30,7 +30,7 @@ export const sendFlag = async (params: {
   flag: string;
 }): Promise<any> => {
   return (
-    await http.post(`/flags/send`, { taskId: params.taskId, flag: params.flag })
+    await http.post(`/solves`, { task: params.taskId, value: params.flag })
   ).data;
 };
 
