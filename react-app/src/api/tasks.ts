@@ -25,8 +25,13 @@ export const editTask = async (
   return (await http.put(`/tasks/${_id}`, { data })).data;
 };
 
-export const sendFlag = async (taskId: string, flag: string): Promise<any> => {
-  return (await http.post(`/flags/send`, { taskId, flag })).data;
+export const sendFlag = async (params: {
+  taskId: string;
+  flag: string;
+}): Promise<any> => {
+  return (
+    await http.post(`/flags/send`, { taskId: params.taskId, flag: params.flag })
+  ).data;
 };
 
 export const getFlags = async (taskId: string): Promise<any> => {

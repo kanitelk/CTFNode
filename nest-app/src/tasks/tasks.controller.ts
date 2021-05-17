@@ -39,6 +39,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task by ID' })
   @Get(':id')
+  @Role(UserRole.USER, UserRole.ADMIN)
   findOne(@Request() req, @Param('id') id: string) {
     return this.tasksService.findOne(id, (req.user as JwtPayloadUser).role);
   }

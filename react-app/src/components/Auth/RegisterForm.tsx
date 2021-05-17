@@ -75,6 +75,7 @@ function RegisterForm() {
               <TextField
                 {...field}
                 variant="outlined"
+                placeholder="Login"
                 margin="normal"
                 required
                 fullWidth
@@ -90,6 +91,7 @@ function RegisterForm() {
               <TextField
                 {...field}
                 variant="outlined"
+                placeholder="E-Mail"
                 margin="normal"
                 required
                 fullWidth
@@ -106,6 +108,7 @@ function RegisterForm() {
                 {...field}
                 variant="outlined"
                 margin="normal"
+                placeholder="Password"
                 required
                 fullWidth
                 autoFocus

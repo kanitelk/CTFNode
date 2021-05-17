@@ -44,5 +44,9 @@ forward({
 });
 
 loginFx.done.watch(() => {
-  window.location.pathname = "/";
+  document.location.assign("/");
+});
+
+registerFx.done.watch(() => {
+  document.location.assign("/login");
 });

@@ -1,15 +1,10 @@
-import { CircularProgress, Grid, Paper, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Grid, Typography } from "@material-ui/core";
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
-
-import TaskForm, { TaskFormInput } from "./TaskForm";
-import { editTask } from "../../api/tasks";
 
 const EditTask = () => {
   const router = useHistory();
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
 
   // const task = useSelector((state: RootState) => state.tasks.currentTask);
 

@@ -12,12 +12,11 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert/Alert";
 import Skeleton from "@material-ui/lab/Skeleton/Skeleton";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router";
-
-import { sendFlag } from "../../api/tasks";
+import { TaskDetailGate, taskDetailState$ } from "../../models/tasks/detail";
+import { useStore } from "effector-react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,93 +50,81 @@ interface FormFlagData {
 const Task = () => {
   const classes = useStyles();
   const { id } = useParams<{ id: string }>();
-  // const isLoading = useSelector(
-  //   (state: RootState) => state.tasks.isLoadingTask
-  // );
-  // const task = useSelector((state: RootState) => state.tasks.currentTask);
-  const dispatch = useDispatch();
-  const [isSubmiting, setSubmitting] = useState(false);
 
-  const { register, formState, handleSubmit } = useForm<FormFlagData>({
+  const { control, formState, handleSubmit } = useForm<FormFlagData>({
     mode: "onChange",
   });
 
-  // useEffect(() => {
-  //   dispatch(fetchTaskById(id));
-  // }, [id]);
+  const { task, loading, sendFlagLoading } = useStore(taskDetailState$);
 
   const onFlagSubmit = async (data: FormFlagData) => {
-    setSubmitting(true);
-    setResult({ ...result, error: "" });
-    try {
-      let res = await sendFlag(id, data.flag);
-      setResult({ ...result, correct: res.correct, score: res.score });
-      setSubmitting(false);
-    } catch (error) {
-      setResult({ ...result, error: error.response?.data?.error });
-    } finally {
-      setSubmitting(false);
-    }
+    // TODO
   };
 
   const [result, setResult] = useState({ correct: false, score: 0, error: "" });
 
-  let skeleton = Array.from(Array(7)).map((i, ind) => (
-    <Skeleton key={ind} variant="text" />
+  let skeleton = Array.from(Array(7)).map((_, index) => (
+    <Skeleton key={index} variant="text" />
   ));
 
   return (
     <Grid item xs={12} sm={8} style={{ maxWidth: "400px" }}>
-      {/*<Paper className={classes.paper}>*/}
-      {/*  {isLoading ? (*/}
-      {/*    <>{skeleton}</>*/}
-      {/*  ) : (*/}
-      {/*    <>*/}
-      {/*      <Typography className={classes.title} variant="h6">*/}
-      {/*        {task?.title}*/}
-      {/*      </Typography>*/}
-      {/*      <Typography className={classes.score} variant="subtitle2">*/}
-      {/*        Score: {task?.score}*/}
-      {/*      </Typography>*/}
-      {/*      <Typography className={classes.content} variant="body2">*/}
-      {/*        {task?.content}*/}
-      {/*      </Typography>*/}
-      {/*    </>*/}
-      {/*  )}*/}
-      {/*  <Divider style={{ marginBottom: "1rem" }} />*/}
-      {/*  {result.correct && (*/}
-      {/*    <Alert severity="success">Success! +{result.score} points</Alert>*/}
-      {/*  )}*/}
-      {/*  {formState.isSubmitted &&*/}
-      {/*    (result.error || !isLoading) &&*/}
-      {/*    !result.correct && (*/}
-      {/*      <Alert severity="error">{result.error || "Wrong flag"}</Alert>*/}
-      {/*    )}*/}
-      {/*  <form className={classes.form} onSubmit={handleSubmit(onFlagSubmit)}>*/}
-      {/*    <TextField*/}
-      {/*      variant="outlined"*/}
-      {/*      margin="dense"*/}
-      {/*      required*/}
-      {/*      inputRef={register({ required: true, minLength: 1 })}*/}
-      {/*      id="flag"*/}
-      {/*      label="Flag"*/}
-      {/*      name="flag"*/}
-      {/*    />*/}
-      {/*    <Button*/}
-      {/*      variant="contained"*/}
-      {/*      style={{ marginLeft: "7px" }}*/}
-      {/*      color="primary"*/}
-      {/*      disabled={!formState.isValid || isLoading}*/}
-      {/*      onClick={handleSubmit(onFlagSubmit)}*/}
-      {/*    >*/}
-      {/*      {isSubmiting ? (*/}
-      {/*        <CircularProgress color="secondary" size={25} />*/}
-      {/*      ) : (*/}
-      {/*        `Submit`*/}
-      {/*      )}*/}
-      {/*    </Button>*/}
-      {/*  </form>*/}
-      {/*</Paper>*/}
+      <TaskDetailGate id={id} />
+      <Paper className={classes.paper}>
+        {loading ? (
+          <>{skeleton}</>
+        ) : (
+          <>
+            <Typography className={classes.title} variant="h6">
+              {task?.title}
+            </Typography>
+            <Typography className={classes.score} variant="subtitle2">
+              Score: {task?.score}
+            </Typography>
+            <Typography className={classes.content} variant="body2">
+              {task?.content}
+            </Typography>
+          </>
+        )}
+        <Divider style={{ marginBottom: "1rem" }} />
+        {result.correct && (
+          <Alert severity="success">Success! +{result.score} points</Alert>
+        )}
+        {formState.isSubmitted &&
+          (result.error || sendFlagLoading) &&
+          !result.correct && (
+            <Alert severity="error">{result.error || "Wrong flag"}</Alert>
+          )}
+        <form className={classes.form} onSubmit={handleSubmit(onFlagSubmit)}>
+          <Controller
+            name="flag"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                placeholder="Your solve (flag)"
+                type="password"
+                margin="dense"
+              />
+            )}
+          />
+          <Button
+            variant="contained"
+            style={{ marginLeft: "7px" }}
+            color="primary"
+            disabled={!formState.isValid || sendFlagLoading}
+            onClick={handleSubmit(onFlagSubmit)}
+          >
+            {sendFlagLoading ? (
+              <CircularProgress color="secondary" size={25} />
+            ) : (
+              `Submit`
+            )}
+          </Button>
+        </form>
+      </Paper>
     </Grid>
   );
 };

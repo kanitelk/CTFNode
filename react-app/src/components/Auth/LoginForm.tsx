@@ -75,6 +75,7 @@ function LoginForm() {
               <TextField
                 {...field}
                 variant="outlined"
+                placeholder="Login"
                 margin="normal"
                 required
                 fullWidth
@@ -90,6 +91,7 @@ function LoginForm() {
               <TextField
                 {...field}
                 variant="outlined"
+                placeholder="Password"
                 type="password"
                 margin="normal"
                 required
