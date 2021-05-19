@@ -2,7 +2,7 @@ import { CircularProgress, Grid, Paper, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import TaskForm, { TaskFormInput } from "./TaskForm";
-import { editTask, getTaskById } from "../../api/tasks";
+import { editTask, getTaskById } from "../../../api/tasks";
 
 const EditTask = () => {
   const router = useHistory();

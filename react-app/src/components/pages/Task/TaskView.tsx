@@ -19,7 +19,7 @@ import {
   sendFlagEvent,
   TaskDetailGate,
   taskDetailState$,
-} from "../../models/tasks/detail";
+} from "../../../models/tasks/detail";
 import { useStore } from "effector-react";
 
 const useStyles = makeStyles((theme: Theme) =>

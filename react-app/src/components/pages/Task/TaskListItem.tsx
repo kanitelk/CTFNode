@@ -9,7 +9,7 @@ import { VisibilityOff } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "effector-react";
-import { authStore$ } from "../../models/auth";
+import { authStore$ } from "../../../models/auth";
 
 const useStyles = makeStyles({
   root: {

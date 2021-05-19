@@ -1,5 +1,5 @@
-import { LoginFormInput } from "../components/Auth/LoginForm";
-import { RegisterFormInput } from "../components/Auth/RegisterForm";
+import { LoginFormInput } from "../components/pages/Login/Auth/LoginForm";
+import { RegisterFormInput } from "../components/pages/Login/Auth/RegisterForm";
 import { http } from "./http";
 
 export const register_new_user = async (

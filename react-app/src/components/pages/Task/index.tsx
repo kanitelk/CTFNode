@@ -9,13 +9,13 @@ import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
-import AddTask from "../../components/Tasks/AddTask";
-import EditTask from "../../components/Tasks/EditTask";
-import { TaskListItem } from "../../components/Tasks/TaskListItem";
-import { Task } from "../../components/Tasks/TaskView";
+import AddTask from "./AddTask";
+import EditTask from "./EditTask";
+import { TaskListItem } from "./TaskListItem";
+import { Task } from "./TaskView";
 import { useStore } from "effector-react";
-import { authStore$ } from "../../models/auth";
-import { TaskListGate, tasksListState$ } from "../../models/tasks/list";
+import { authStore$ } from "../../../models/auth";
+import { TaskListGate, tasksListState$ } from "../../../models/tasks/list";
 
 const useStyles = makeStyles({
   root: {},
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TasksPage = () => {
+const Index = () => {
   const classes = useStyles();
   const auth = useStore(authStore$);
   const state = useStore(tasksListState$);
@@ -101,4 +101,4 @@ const TasksPage = () => {
   );
 };
 
-export default TasksPage;
+export default Index;

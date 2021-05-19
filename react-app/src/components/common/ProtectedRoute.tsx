@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Redirect, Route, RouteProps } from "react-router";
-import { UserRole } from "../types";
+import { UserRole } from "../../types";
 import { useStore } from "effector-react";
-import { sessionUser$ } from "../models/auth";
+import { sessionUser$ } from "../../models/auth";
 
 const ProtectedRoute = ({
   component: Component,

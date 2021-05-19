@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import TaskForm, { TaskFormInput } from "./TaskForm";
-import { addTask } from "../../api/tasks";
+import { addTask } from "../../../api/tasks";
 
 const AddTask = () => {
   const [loading, setLoading] = useState(false);

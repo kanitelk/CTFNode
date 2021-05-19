@@ -5,8 +5,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { HomePage } from "../../pages/Home/HomePage";
-import { Header } from "../Layout/Header/Header";
-import Sidebar from "../Layout/Sidebar/Sidebar";
+import { Header } from "../Header/Header";
+import Sidebar from "../Sidebar/Sidebar";
 import {
   CircularProgress,
   createStyles,
@@ -15,14 +15,14 @@ import {
   Theme,
   withWidth,
 } from "@material-ui/core";
-import { ProtectedRoute } from "../../utils/ProtectedRoute";
+import { ProtectedRoute } from "../ProtectedRoute";
 import { useGate, useStore } from "effector-react";
-import { AppGate, isAuth$ } from "../../models/auth";
-import { UserRole } from "../../types";
+import { AppGate, isAuth$ } from "../../../models/auth";
+import { UserRole } from "../../../types";
 
 const LoginPage = React.lazy(() => import("../../pages/Login/LoginPage"));
 const RegisterPage = React.lazy(() => import("../../pages/Login/RegisterPage"));
-const TasksPage = React.lazy(() => import("../../pages/Task/TasksPage"));
+const TasksPage = React.lazy(() => import("../../pages/Task"));
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

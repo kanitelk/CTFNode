@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
-import App from "./components/App/App";
+import App from "./components/common/App/App";
 import "./models/init";
 import { authInitFx } from "./models/auth";
 // import reportWebVitals from './reportWebVitals';

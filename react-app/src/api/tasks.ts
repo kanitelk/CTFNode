@@ -1,4 +1,4 @@
-import { TaskFormInput } from "../components/Tasks/TaskForm";
+import { TaskFormInput } from "../components/pages/Task/TaskForm";
 import { http } from "./http";
 import { ITaskListItem } from "../types/tasks";
 

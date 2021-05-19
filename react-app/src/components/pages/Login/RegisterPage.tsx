@@ -1,6 +1,7 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import * as React from "react";
-import LoginForm from "../../components/Auth/LoginForm";
+
+import { RegisterForm } from "./Auth/RegisterForm";
 
 const useStyles = makeStyles({
   root: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const classes = useStyles();
 
   return (
@@ -20,10 +21,10 @@ const LoginPage = () => {
       alignItems="center"
     >
       <Grid item>
-        <LoginForm />
+        <RegisterForm />
       </Grid>
     </Grid>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

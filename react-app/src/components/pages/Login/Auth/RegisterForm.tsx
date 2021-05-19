@@ -10,11 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { useStore } from "effector-react";
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
-import { authStore$, doLogin } from "../../models/auth";
+import { useStore } from "effector-react";
+import { authStore$, doRegister } from "../../../../models/auth";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,24 +36,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type LoginFormInput = {
-  username: string;
+export type RegisterFormInput = {
+  login: string;
+  email: string;
   password: string;
 };
 
-function LoginForm() {
+function RegisterForm() {
   const classes = useStyles();
 
+  const router = useHistory();
   const auth = useStore(authStore$);
 
-  const router = useHistory();
-  const { control, formState, handleSubmit } = useForm<LoginFormInput>({
+  const { control, formState, handleSubmit } = useForm<RegisterFormInput>({
     mode: "onChange",
   });
 
-  const onSubmit = async (data: LoginFormInput) => {
-    doLogin(data);
-    // router.push("/");
+  const onSubmit = async (data: RegisterFormInput) => {
+    doRegister(data);
   };
 
   return (
@@ -64,11 +64,11 @@ function LoginForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Register
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name="username"
+            name="login"
             control={control}
             defaultValue=""
             render={({ field }) => (
@@ -84,6 +84,22 @@ function LoginForm() {
             )}
           />
           <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                placeholder="E-Mail"
+                margin="normal"
+                required
+                fullWidth
+                autoFocus
+              />
+            )}
+          />
+          <Controller
             name="password"
             control={control}
             defaultValue=""
@@ -91,12 +107,12 @@ function LoginForm() {
               <TextField
                 {...field}
                 variant="outlined"
-                placeholder="Password"
-                type="password"
                 margin="normal"
+                placeholder="Password"
                 required
                 fullWidth
                 autoFocus
+                type="password"
               />
             )}
           />
@@ -106,10 +122,9 @@ function LoginForm() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            // @ts-ignore
-            disabled={!formState.isValid || auth.loginPending}
+            disabled={!formState.isValid}
           >
-            {auth.loginPending ? <CircularProgress size={20} /> : `Sign In`}
+            {false ? <CircularProgress size={20} /> : `Sign Up`}
           </Button>
           <Grid
             container
@@ -121,13 +136,13 @@ function LoginForm() {
             <Grid item>
               <Button
                 component={Link}
-                to="/register"
+                to="/login"
                 fullWidth
                 variant="contained"
                 color="default"
                 style={{ marginTop: "1rem" }}
               >
-                Create Account
+                Login
               </Button>
             </Grid>
           </Grid>
@@ -137,4 +152,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export { RegisterForm };
